@@ -8,7 +8,7 @@
 \usepackage{tabularx}
 
 \title{Projet de simulateur de microprocesseur}
-\author{Nathan Boyer, Matteo Torrents, Antoine Cuvelier, Grégoire Lecorre}
+\author{Nathan Boyer, Matteo Torrents, Antoine Cuvelier, Grégoire Le Corre}
 
 
 \begin{document}
@@ -27,7 +27,7 @@ De plus, l'instruction reg permet de se prendre la valeur du cycle précédent d
 (par soucis de réalisme, on considérera qu'il n'existe qu'une seule RAM). L'instruction ROM, quant à elle, permet de lire le contenu d'un fichier composé de 0 et de 1
 
 On va alors programmer un langage assembleur qui nous permettra de communiquer avec notre microprocesseur. Notamment, on programmera une horloge graphique (càd qu'on s'occupera
-de l'affichage des pixels depuis notre microprocesseur)
+de l'affichage des pixels depuis notre microprocesseur) qui compte en année, mois, jour, heure, minute et seconde jusqu'à l'année 9999.
 pour tester notre microprocesseur.
 
 
@@ -35,25 +35,25 @@ pour tester notre microprocesseur.
 
 Tous les calculs du microprocceseur seront faits sur des registres de 16 bits.
 
-Il y a en tout 8 registres.
+Il y a en tout 16 registres.
 
 
 \section{Représentation des instructions}
 
-Le microprocesseur lit les instructions qu'il doit éxécuter depuis un fichier (lu avec l'instruction ROM)
+Le microprocesseur lit les instructions qu'il doit exécuter depuis un fichier (lu avec l'instruction ROM).
 
-Chaque instruction fait 16 bits, prend en argument 2 numéros de registre et une constante, et est découpée en
+Chaque instruction fait 32 bits, peut prendre en argument jusqu'à 2 numéros de registre et une constante. On doit donc stocker une instruction sur deux registres, le deuxième correspondant toujours à une constante (non initialisée si l'instruction n'utilise pas de constante). Une instruction est donc découpée en 
 
 \begin{itemize}
     \item 4 bits du code de l'instruction
-    \item 2*3 bits de numéro de registre
-    \item 6 bits de constante
+    \item deux blocs de quatre bits renseignant les registres en argument
+    \item un deuxième registre de constante
 \end{itemize}
 
 
 \section{Du langage assembleur à la ROM}
 
-Un parseur menhir lit les instructions et écrit dans un fichier lisible par la ROM les différentes instructions
+Un parseur menhir lit les instructions et écrit dans un fichier lisible par la ROM les différentes instructions.
 
 Voici une liste des différentes instructions, de leur code en binaire, et de leur effet.
 
@@ -67,26 +67,39 @@ Voici une liste des différentes instructions, de leur code en binaire, et de le
     \hline
     stop & 0000 & stoppe le programme \\
     \hline
-    add r1 r2 & 0001 & r1 <- r1 + r2 \\
+    add r1 r2 & 0010 & r1 <- r1 + r2 \\
     \hline
-    sub r1 r2 & 0010 & r1 <- r1 - r2 \\
+    sub r1 r2 & 0110 & r1 <- r1 - r2 \\
     \hline
-    movr r1 r2 & 0011 & r1 <- r2 \\
+    movr r1 r2 & 1010 & r1 <- r2 \\
     \hline
-    movc r1 c & 0100 & r1 <- c \\
+    movc r1 c & 0011 & r1 <- c \\
     \hline
-    jump r1 r2 c & 0101 & on saute à la ligne c si r1 = r2 \\
+    jump r1 r2 c & 0001 & on saute à la ligne c si r1 = r2 \\
     \hline
-    getram r1 r2 c & 0110 & r1 <- RAM(r2 + c) \\
+    getram r1 r2 c & 0101 & r1 <- RAM(r2 + c) \\
     \hline
-    setram r1 r2 c & 0111 & RAM(r2 + c) <- r1 \\
+    setram r1 r2 c & 1001 & RAM(r2 + c) <- r1 \\
     \hline
-    rom r1 r2 c & 1000 & r1 <- ROM(r2 + c) \\
+    rom r1 r2 c & 1101 & r1 <- ROM(r2 + c) \\
     \hline
 \end{tabularx}
 
 
+\;
 
+
+Le bit de poids faible indique si l'instruction contient une constante, le deuxième bit de poids faible si l'instruction appelle un ou deux registres.
+On numérote ensuite les instructions de chaque catégorie en les énumérant. 
+
+\section{Affichage graphique}
+
+L'affichage de l'horloge se fait dans une fenêtre graphique de dimension. La date est affichée sous la forme 
+
+\textit {heures}: \textit {minutes} : \textit {secondes} \textit {jour} / \textit {mois}/ \textit {année} 
+
+où les passages en italiques représentent les valeurs machine.
+Concrètement on alloue une partie de la mémoire pour l'affichage; chaque bit en mémoire représente un mégapixel (noir ou blanc). Le microprocesseur modifie cette espace mémoire à chaque cycle et Ocaml affiche la fenêtre bit à bit.
 
 
 
