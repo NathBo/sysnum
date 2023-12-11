@@ -31,11 +31,18 @@ de l'affichage des pixels depuis notre microprocesseur) qui compte en année, mo
 pour tester notre microprocesseur.
 
 
-\section{Les registres}
+\section{Architecture générale}
 
-Tous les calculs du microprocceseur seront faits sur des registres de 16 bits.
+On opte pour une architecture 16 bits avec des instructions définies sur 32 bits.
+
+L'horloge du microprocesseur utilise l'horloge de l'ordinateur pour connaître l'heure exacte, l'ordinateur définissant préalablement le framerate du microprocesseur en lui indiquant chaque changement de frame dans un endroit désigné de la ROM.
+
+La prise d'input ce fait en donnant le dernier input dans un endroit désigné de la ROM, jusqu'à l'arrivée du prochain input. Ceci impose une limite de 1 input par cycle, ce qui ne pause pas de problème en pratique (on ne considère pas le maintien d'une touche).
+
+Tous les calculs du microprocesseur seront faits sur des registres de 16 bits.
 
 Il y a en tout 16 registres.
+
 
 
 \section{Représentation des instructions}
@@ -94,9 +101,12 @@ On numérote ensuite les instructions de chaque catégorie en les énumérant.
 
 \section{Affichage graphique}
 
-L'affichage de l'horloge se fait dans une fenêtre graphique de dimension. La date est affichée sous la forme 
+L'affichage est un display de 320 x 624 pixels noirs et blancs: la résolution est en blocs/megapixels de 8x8 pixels, chaque caractère étant contenu dans un bloc de 16 x 8 megapixels, avec un espace horizontal de 2 megapixels, et un espace vertical (interligne) de 8 megapixels.
 
-\textit {heures}: \textit {minutes} : \textit {secondes} \textit {jour} / \textit {mois}/ \textit {année} 
+L'affichage de l'horloge se fait dans cette fenêtre. La date est affichée sous la forme 
+
+\textit {heures}: \textit {minutes} : \textit {secondes}  \newline \textit {jour} /\textit {mois}/\textit {année} 
+
 
 où les passages en italiques représentent les valeurs machine.
 Concrètement on alloue une partie de la mémoire pour l'affichage; chaque bit en mémoire représente un mégapixel (noir ou blanc). Le microprocesseur modifie cette espace mémoire à chaque cycle et Ocaml affiche la fenêtre bit à bit.
