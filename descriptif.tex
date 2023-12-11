@@ -6,13 +6,30 @@
 \usepackage{amssymb}
 \usepackage{amsmath}
 
-\title{Compilateur purscript: rendu 1}
+\title{Projet de simulateur de microprocesseur}
 \author{Nathan Boyer, Matteo Torrents, Antoine Cuvelier, Grégoire Lecorre}
 
 
 \begin{document}
 
 \maketitle
+
+\section*{Introduction}
+
+On cherche à coder un simulateur de microprocesseur en Ocaml.
+
+Pour cela, on va utiliser un simulateur de netlist qui éxécutera des netlists écrites en miniJazz.
+
+Cette netlist peut éxécuter les opérations arithmétiques de base (and, or etc \ldots) sur un bit, manipuler des bus de bits (splice, concat \ldots)
+
+De plus, l'instruction reg permet de se prendre la valeur du cycle précédent d'une variable. L'instruction RAM permet d'écrire et de lire dans la mémoire
+(par soucis de réalisme, on considérera qu'il n'existe qu'une seule RAM). L'instruction ROM, quant à elle, permet de lire le contenu d'un fichier composé de 0 et de 1
+
+On va alors programmer un langage assembleur qui nous permettra de communiquer avec notre microprocesseur. Notamment, on programmera une horloge textuelle, puis une horloge graphique
+pour tester notre microprocesseur.
+
+
+
 
 
 \end{document}
