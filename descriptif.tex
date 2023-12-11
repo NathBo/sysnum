@@ -29,6 +29,33 @@ On va alors programmer un langage assembleur qui nous permettra de communiquer a
 pour tester notre microprocesseur.
 
 
+\section{Les registres}
+
+Tous les calculs du microprocceseur seront faits sur des registres de 16 bits.
+
+Il y a en tout 8 registres.
+
+
+\section{Représentation des instructions}
+
+Le microprocesseur lit les instructions qu'il doit éxécuter depuis un fichier (lu avec l'instruction ROM)
+
+Chaque instruction fait 16 bits, prend en argument 2 numéros de registre et une constante, et est découpée en
+
+\begin{itemize}
+    \item 4 bits du code de l'instruction
+    \item 2*3 bits de numéro de registre
+    \item 6 bits de constante
+\end{itemize}
+
+
+\section{Du langage assembleur à la ROM}
+
+Un parseur menhir lit les instructions et écrit dans un fichier lisible par la ROM les différentes instructions
+
+Voici une liste des différentes instructions, de leur code en binaire, et de leur effet.
+
+
 
 
 
