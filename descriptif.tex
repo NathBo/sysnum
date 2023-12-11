@@ -5,6 +5,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{tabularx}
 
 \title{Projet de simulateur de microprocesseur}
 \author{Nathan Boyer, Matteo Torrents, Antoine Cuvelier, Grégoire Lecorre}
@@ -54,6 +55,36 @@ Chaque instruction fait 16 bits, prend en argument 2 numéros de registre et une
 Un parseur menhir lit les instructions et écrit dans un fichier lisible par la ROM les différentes instructions
 
 Voici une liste des différentes instructions, de leur code en binaire, et de leur effet.
+
+\;
+
+
+
+\begin{tabularx}{15cm}{|c|p{4cm}|X|}
+    \hline
+    nom & code & effet \\
+    \hline
+    stop & 0000 & stoppe le programme \\
+    \hline
+    add r1 r2 & 0001 & r1 <- r1 + r2 \\
+    \hline
+    sub r1 r2 & 0010 & r1 <- r1 - r2 \\
+    \hline
+    movr r1 r2 & 0011 & r1 <- r2 \\
+    \hline
+    movc r1 c & 0100 & r1 <- c \\
+    \hline
+    jump r1 r2 c & 0101 & on saute à la ligne c si r1 = r2 \\
+    \hline
+    getram r1 r2 c & 0110 & r1 <- RAM(r2 + c) \\
+    \hline
+    setram r1 r2 c & 0111 & RAM(r2 + c) <- r1 \\
+    \hline
+    rom r1 r2 c & 1000 & r1 <- ROM(r2 + c) \\
+    \hline
+\end{tabularx}
+
+
 
 
 
