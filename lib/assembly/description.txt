@@ -1,1 +1,2 @@
+Name of the register : ra, ..., rp (16 registers)
 
