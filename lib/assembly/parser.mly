@@ -1,5 +1,5 @@
 %{
-
+    open Ast
 %}
 
 %token STOP ADD SUB MOVR MOVC JUMP GETRAM SETRAM ROM
@@ -14,8 +14,8 @@
 %%
 
 file:
-    | list_instructions = separated_list (instruction, NEWLINE) EOF
-        { File (linstrs) }
+    | list_instructions = separated_list (NEWLINE, instruction) EOF
+        { File (list_instructions) }
 
 instruction:
     | STOP

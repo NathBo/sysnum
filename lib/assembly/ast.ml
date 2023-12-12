@@ -1,5 +1,3 @@
-open Parser
-
 type reg = Reg of int list
 
 type const = Const of int list

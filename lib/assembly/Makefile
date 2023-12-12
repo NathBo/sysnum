@@ -3,7 +3,7 @@ all: assembly
 assembly.exe:
 	dune build assembly.exe
 
-assembly: ppurs.exe
+assembly: assembly.exe
 	cp assembly.exe assembly
 
 clean:

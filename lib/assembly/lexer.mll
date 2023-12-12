@@ -1,6 +1,7 @@
 {
     open Lexing
     open Format
+    open Parser
 
     exception Lexing_error of string
 
