@@ -35,8 +35,8 @@ def mux16(a,b,c):
 
 def alu(a,b,sub):
     bnot = n_not(b)
-    moins_b,nul = n_adder(bnot,Constant("0000000000000001"))       #y a 15 0 en tout
-    bon_b = mux16(b,moins_b,sub)
+    moins_b,nul = n_adder(bnot,Constant("1000000000000000"))       #y a 15 0 en tout
+    bon_b = mux16(moins_b,b,sub)
     (s,c) = n_adder(a,bon_b)
     return (s,c)
 
@@ -45,6 +45,6 @@ def main():
     a = Input(16)
     b = Input(16)
     sub = Input(1)
-    (s,c) = alu(a,b,sub)
+    s = mux16(a,b,sub)
     s.set_as_output("sum")
-    c.set_as_output("overflow")
+    #c.set_as_output("overflow")
