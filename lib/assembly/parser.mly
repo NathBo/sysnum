@@ -3,8 +3,8 @@
 %}
 
 %token STOP ADD SUB MOVR MOVC JUMP GETRAM SETRAM ROM
-%token <int list> REG
-%token <int list> CONSTANT
+%token <string> REG
+%token <string> CONST
 %token NEWLINE
 %token EOF
 
@@ -50,6 +50,6 @@ reg:
         { Reg (r) }
 
 constant:
-    | c = CONSTANT
+    | c = CONST
         { Const (c) }
 

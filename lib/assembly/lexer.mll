@@ -9,7 +9,7 @@
         let keywords = Hashtbl.create 17 in
         List.iter
         (
-            fun (keyword, token) -> Hashtbl.add keywords token 
+            fun (keyword, token) -> Hashtbl.add keywords keyword token
         )
         (
             [
@@ -23,22 +23,22 @@
                 ("setram", SETRAM);
                 ("rom", ROM);
 
-                ("ra", REG( [0; 0; 0; 0] )); 
-                ("rb", REG( [0; 0; 0; 1] ));
-                ("rc", REG( [0; 0; 1; 0] ));
-                ("rd", REG( [0; 0; 1; 1] ));
-                ("re", REG( [0; 1; 0; 0] ));
-                ("rf", REG( [0; 1; 0; 1] ));
-                ("rg", REG( [0; 1; 1; 0] ));
-                ("rh", REG( [0; 1; 1; 1] ));
-                ("ri", REG( [1; 0; 0; 0] ));
-                ("rj", REG( [1; 0; 0; 1] ));
-                ("rk", REG( [1; 0; 1; 0] ));
-                ("rl", REG( [1; 0; 1; 1] ));
-                ("rm", REG( [1; 1; 0; 0] ));
-                ("rn", REG( [1; 1; 0; 1] ));
-                ("ro", REG( [1; 1; 1; 0] ));
-                ("rp", REG( [1; 1; 1; 1] ))
+                ("ra", REG( "0000" )); 
+                ("rb", REG( "0001" ));
+                ("rc", REG( "0010" ));
+                ("rd", REG( "0011" ));
+                ("re", REG( "0100" ));
+                ("rf", REG( "0101" ));
+                ("rg", REG( "0110" ));
+                ("rh", REG( "0111" ));
+                ("ri", REG( "1000" ));
+                ("rj", REG( "1001" ));
+                ("rk", REG( "1010" ));
+                ("rl", REG( "1011" ));
+                ("rm", REG( "1100" ));
+                ("rn", REG( "1101" ));
+                ("ro", REG( "1110" ));
+                ("rp", REG( "1111" ))
                 
             ]
         );
@@ -51,8 +51,9 @@
             list_bytes := 
                 (
                     match s.[i] with
-                        | "0" -> 0
-                        | "1" -> 1
+                        | '0' -> 0
+                        | '1' -> 1
+                        | _ -> assert false (* Cas impossible par construction *)
                 ) 
                 :: (!list_bytes)
         done;
@@ -60,21 +61,21 @@
 }
 
 let letter = ['a'-'z']
-let word = (letter | number)+
 let whitespace = [' ' '\t']
 let newline = ['\n']
 let digit = ['0' '1']
 let number = digit*
+let word = letter+
 
-let next_token = parse
+rule next_token = parse
     | whitespace
-        { next_loken lexbuf}
+        { next_token lexbuf}
     | newline
         { NEWLINE }
     | word as w
         { resolve_keywords w }
     | number as n
-        { CONST( convert_string_to_int n ) }
+        { CONST( n ) }
     | eof
         { EOF }
     | _
