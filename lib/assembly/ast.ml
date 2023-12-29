@@ -1,6 +1,6 @@
-type reg = Reg of int list
+type reg = Reg of string
 
-type const = Const of int list
+type const = Const of string
 
 type instruction = 
 	| Stop
@@ -14,3 +14,4 @@ type instruction =
 	| Rom of reg * reg * const
 
 type file = File of instruction list
+
