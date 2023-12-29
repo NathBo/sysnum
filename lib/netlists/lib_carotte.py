@@ -142,6 +142,10 @@ class Defer:
         if attr == 'autogen_name':
             return True
         raise AttributeError
+    def __getitem__(self, index: typing.Union[int, slice]) -> 'Variable':
+        if isinstance(index, int):
+            return Select(index, self)
+        raise TypeError(f"Invalid getitem, index: {index} should be an integer")
 
 VariableOrDefer = typing.Union[Variable, Defer]
 
