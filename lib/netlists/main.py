@@ -88,10 +88,17 @@ def mulreg(we,waddr,wdata,raddr1,raddr2):
     return (mux16(raddr1,regarray),mux16(raddr2,regarray))
 
 
-def add_reg(r1,r2,sub,c,usereg):
-    val1,val2 = mulreg(Constant("1"),r1,Defer(16, lambda : result),r1,r2)
-    bon_val2 = Mux(usereg,c,val2)
-    result,_ = alu(sub,val1,bon_val2)
+def loop(r1,r2,sub,c,use2reg,do_operation,rom,ram,we):
+    #use2reg = 1 si on utilise r1 et r2, = 0 si on utilise r1 et c
+    #do_operation = 1 si on fait un add/sub, = 0 si on fait un mov
+    val1,val2 = mulreg(we,r1,Defer(16, lambda : result),r1,r2)
+    bon_val2 = Mux(use2reg,c,val2)
+    pre_result,_ = alu(sub,val1,bon_val2)
+    pre_result_regop = Mux(do_operation,bon_val2,pre_result)
+    pre_result_rom = ROM(16,16,bon_val2)
+    pre_result_ram = RAM(16,16,bon_val2,Not(we),bon_val2,val1)
+    pre_result_romram = Mux(ram,pre_result_rom,pre_result_ram)
+    result = Mux(rom,pre_result_regop,pre_result_romram)
     return result
 
 
@@ -101,6 +108,10 @@ def main():
     r2 = Input(4)
     sub = Input(1)
     c = Input(16)
-    usereg = Input(1)
-    re = add_reg(r1,r2,sub,c,usereg)
+    use2reg = Input(1)
+    do_operation = Input(1)
+    rom = Input(1)
+    ram = Input(1)
+    we = Input(1)
+    re = loop(r1,r2,sub,c,use2reg,do_operation,rom,ram,we)
     re.set_as_output("re")
