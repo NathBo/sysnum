@@ -91,14 +91,27 @@ def mulreg(we,waddr,wdata,raddr1,raddr2):
 def loop(r1,r2,sub,c,use2reg,do_operation,rom,ram,we):
     #use2reg = 1 si on utilise r1 et r2, = 0 si on utilise r1 et c
     #do_operation = 1 si on fait un add/sub, = 0 si on fait un mov
+
+    #add r1 r2 -> sub = 0, use2reg = 1, do_operation = 1, rom = 0, ram = 0, we = 1
+    #sub r1 r2 -> sub = 1, use2reg = 1, do_operation = 1, rom = 0, ram = 0, we = 1
+    #movr r1 r2 -> sub = any, use2reg = 1, do_operation = 0, rom = 0, ram = 0, we = 1
+    #movc r1 c -> sub = any, use2reg = 0, do_operation = 0, rom = 0, ram = 0, we = 1
+    #getram r1 r2 c -> sub = 0, use2reg = 1, do_operation = 1, rom = 0, ram = 1, we = 1
+    #setram r1 r2 c -> sub = 0, use2reg = 1, do_operation = 1, rom = 0, ram = 1, we = 0
+    #rom r1 r2 c -> sub = 0, use2reg = 1, do_operation = 1, rom = 1, ram = 1, we = 1
+
+    #faciles à faire mais pas dans le tableau de base
+    #r1 <- r1 + c -> sub = 0, use2reg = 0, do_operation = 1, rom = 0, ram = 0, we = 1
+    #r1 <- r1 - c -> sub = 1, use2reg = 0, do_operation = 1, rom = 0, ram = 0, we = 1
     val1,val2 = mulreg(we,r1,Defer(16, lambda : result),r1,r2)
     bon_val2 = Mux(use2reg,c,val2)
-    pre_result,_ = alu(sub,val1,bon_val2)
+    bon_val1 = Mux(Or(ram,rom),val1,c)
+    pre_result,_ = alu(sub,bon_val1,bon_val2)
     pre_result_regop = Mux(do_operation,bon_val2,pre_result)
-    pre_result_rom = ROM(16,16,bon_val2)
-    pre_result_ram = RAM(16,16,bon_val2,Not(we),bon_val2,val1)
+    pre_result_rom = ROM(16,16,pre_result)
+    pre_result_ram = RAM(16,16,pre_result,Not(we),bon_val2,val1)
     pre_result_romram = Mux(ram,pre_result_rom,pre_result_ram)
-    result = Mux(rom,pre_result_regop,pre_result_romram)
+    result = Mux(Or(rom,ram),pre_result_regop,pre_result_romram)
     return result
 
 
