@@ -1,15 +1,26 @@
 open Graphics
 open Unix
 open Netlist_ast
+        
+let white = yellow and black = rgb 128 0 128
 
-let screen_width = 624 and screen_height = 320
+(*
+conventions:
+les bords font 8 megapixels  
+les megapixels sont 8x8
+un chiffre est en 12x8 megapixels 
+*)
+
+let screen_width = 992 and screen_height = 48*8
+let mpixs = 8 and edge = 8
+let m_width = screen_width/mpixs - 2*edge and m_height = screen_height/mpixs - 2*edge
 
 let screen_init () = 
   open_graph (" " ^ (string_of_int screen_width) ^ "x" ^ (string_of_int screen_height)); (*oui, il faut un espace en premier*)
   set_window_title "clock";
   set_color black;
   fill_rect 0 0 (screen_width-1) (screen_height-1);
-  auto_synchronize false;;
+  auto_synchronize false
 
 let draw_ram ram = 
   if Array.length ram <> screen_width * screen_height then failwith "image size and window size do not match";
@@ -23,22 +34,39 @@ let draw_ram ram =
     done;
   plots (Array.of_list !to_display);
   set_color black;
-  synchronize ();;
+  synchronize ()
 
 let update_display to_change_white to_change_black =
+
   let update (color, lst) = 
     set_color color;
+    let to_display = List.map (fun i -> (mpixs * (edge+ (i mod m_width)), mpixs*(1+edge + (i/m_width)))) lst in
+    List.iter (fun (x, y) -> fill_rect x (screen_height - y) mpixs mpixs) to_display in
+    (*
     let to_display = List.map (fun i -> i mod screen_width, i / screen_width) lst in
     plots (Array.of_list to_display) in
-  List.iter update [(white; to_change_white); (black; to_change_black)];
-  synchronize ();;
+    *)
+  List.iter update [(white, to_change_white); (black, to_change_black)];
+  synchronize ()
 
-(*
+
 let tests () = 
   screen_init ();
+  let w=[7; 8;7+2*108;8+2*108; 7+107; 8+107; 132; 7+2*107; 8+2*107; 257; 258; 7+3*107; 8+3*107; 381; 382; 7+3*107; 8+3*107; 504; 505; 7+4*107;628; 629; 8+4*107; 8+3*107;
+    124+628; 124+629; 248+628; 248+629; 124*3+628; 124*3+629; 124*4+628; 124*4+629; 124*5+628; 108*5+629; 124*6+628; 124*6+629; 107*7+628; 107*7+629] in
+  let w2=[3; 110; 217; 218; 324; 325; 866; 867; 973; 974; 1080; 1081; 1188; 1189; 1190; 1191; 1192; 1193; 1194; 1195]in
+  update_display w2 [];
+  sleep 60
+  (*
   for _ = 1 to 10 do
-    let ram = Array.init (screen_width*screen_height) (fun _ -> VBit(Random.bool ())) in
-    draw_ram ram;
+    let w = ref [] and b = ref [] in
+    for i = 0 to 124*32 do
+      if Random.bool() then w := i :: !w else b := i :: !b
+    done;
+    update_display !w !b;
     sleep 5
-  done;;
-*)
+  done
+  *)
+  
+
+let _=tests ()

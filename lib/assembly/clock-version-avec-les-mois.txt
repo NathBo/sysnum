@@ -1,0 +1,113 @@
+
+(* On considère que ra stocke les secondes, rb les minutes, rc les heures, rd les jours et re les mois, rf les années
+ rg le compteur modulo 4, rh le compteur modulo 100, ri le compteur modulo 400, rj les constantes *)
+(* Il faut savoir dans registres de la RAM sont stockés les valeurs initiales. Est-ce que c'est une bonne idée d'attribuer a un certain registre le rôle de
+stack pointer? Pour l'instant, on va dire que rp a le rôle de stack pointer *)
+(* Le registre ri va être destiné à stocker toutes les constantes dont on aura besoin pour le comparaison avec le jump *)
+(* L'adresse 0 de la RAM va servir pour savoir si une seconde est passée ou pas *)
+(* Pour les valeurs initiales, l'adresse 1 va stocker les secondes, l'adresse 2 les minutes, l'adresse 3 les heures, l'adresse 4 les jours, l'adresse 5 les mois, l'adresse
+6 les années *)
+
+(*Chargement de toutes les valeurs nécessaires pour commencer*)
+movc rj 0
+getram ra rj 1
+getram rb rj 2
+getram rc rj 3
+getram rd rj 4
+getram re rj 5
+getram rf rj 6
+
+(*Initialisation du compteur modulo 4*)
+movr rg rf
+compc rg 4 LIGNE_INIT_MOD_100
+movc rj 4
+sub rg rj
+jump ra ra LIGNE_INIT_MOD_4
+
+(*Initialisation du compteur modulo 100*)
+movr rh rf
+compc rg 4 LIGNE_INIT_MOD_400
+movc rj 100
+sub rh rj
+jump ra ra LIGNE_INIT_MOD_100
+
+(*Initialisation du compteur modulo 400*)
+movr ri rf
+compc rg 4 LIGNE_TEST_DEBUT
+movc rj 400
+sub ri rj
+jump ra ra LIGNE_INIT_MOD_400
+
+(*Test pour savoir s'il faut ajouter une seconde ou non*)
+movc rj 0
+getram rk rj 0
+jump rj rk LIGNE_DU_TEST
+
+(* Début du programme, gestion des secondes *)
+addc ra 1
+movc rj 60
+jump ra rj LIGNE_DES_MINUTES 
+jump ra ra LIGNE_DU_DEBUT (* Pour que ça boucle *)
+
+
+(* Gestion des minutes *)
+movc ra 0
+addc rb 1
+movc rj 60
+jump rb rj LIGNE_DES_HEURES
+jump ra ra LIGNE_DU_DEBUT
+
+(* Gestion des heures *)
+movc rb 0
+addc rc 1
+movc rj 24
+jump rc rj LIGNE_DES_JOURS
+
+
+(* Gestion des jours, un peu compliqué parce qu'il faut gérer les années bissextiles *)
+movc rc 0
+addc rd 1
+movc rj 0
+jump ri rj LIGNE_DES_ANNEES_BISSEXTILES 
+jump rh rj LIGNE_DES_ANNEES_PAS_BISSEXTILES
+jump rg rj LIGNE_DES_ANNEES_BISSEXTILES
+
+
+(* Gestion des années non bissextiles *)
+movc rj 365
+jump rd rj LIGNE_DES_ANNEES
+jump ra ra LIGNE_DU_DEBUT
+
+
+(* Gestion des années bissextiles *)
+movc rj 366
+jump rd rj LIGNE_DES_ANNEES
+jump ra ra LIGNE_DU_DEBUT
+
+
+(* Gestion des années *)
+addc rf 1
+addc ri 1
+addc rh 1
+addc rg 1
+movc rj 100
+jump rh rj LIGNE_DE_REMISE_A_ZERO_DES_COMPTEURS
+movc rj 4
+jump rh rj LIGNE_DE_REMISE_A_ZERO_DU_COMPTEUR_MOD4
+
+(*Remise à zéro des trois compteurs*)
+movc ri 0
+movc rh 0
+movc rg 0
+jump ra ra LIGNE_DU_DEBUT
+
+(* Remise à zéro des deux compteurs *)
+movc rh 0
+movc rg 0
+jump ra ra LIGNE_DU_DEBUT
+
+(* Remise à zéro du compteur mod 4 *)
+movc rg 0
+jump ra ra LIGNE_DU_DEBUT
+
+
