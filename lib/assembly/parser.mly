@@ -2,7 +2,7 @@
     open Ast
 %}
 
-%token STOP ADD SUB MOVR MOVC JUMP GETRAM SETRAM ROM
+%token STOP ADD ADDC SUB SUBC MOVR MOVC JUMP GETRAM SETRAM
 %token <string> REG
 %token <string> CONST
 %token NEWLINE
@@ -23,9 +23,15 @@ instruction:
         
     | ADD r1 = reg r2 = reg
         { Add (r1, r2) }
+    
+    | ADDC r1 = reg c = constant
+        { Addc (r1, c) }
 
     | SUB r1 = reg r2 = reg
         { Sub (r1, r2) }
+
+    | SUBC r1 = reg c = constant
+        { Subc (r1, c) }
 
     | MOVR r1 = reg r2 = reg
         { Movr (r1, r2) }

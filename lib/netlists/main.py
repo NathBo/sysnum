@@ -87,44 +87,52 @@ def mulreg(we,waddr,wdata,raddr1,raddr2):
     regarray = [reg_16bit(b[i],wdata) for i in range(16)]
     return (mux16(raddr1,regarray),mux16(raddr2,regarray))
 
+def is0(a):
+    rep = Constant("0")
+    for i in range(a.bus_size):
+        rep = Or(rep,a[i])
+    return Not(rep)
 
-def loop(r1,r2,sub,c,use2reg,do_operation,rom,ram,we):
+
+def execute(r1,r2,sub,c,use2reg,do_operation,ram,we):
     #use2reg = 1 si on utilise r1 et r2, = 0 si on utilise r1 et c
     #do_operation = 1 si on fait un add/sub, = 0 si on fait un mov
 
-    #add r1 r2 -> sub = 0, use2reg = 1, do_operation = 1, rom = 0, ram = 0, we = 1
-    #sub r1 r2 -> sub = 1, use2reg = 1, do_operation = 1, rom = 0, ram = 0, we = 1
-    #movr r1 r2 -> sub = any, use2reg = 1, do_operation = 0, rom = 0, ram = 0, we = 1
-    #movc r1 c -> sub = any, use2reg = 0, do_operation = 0, rom = 0, ram = 0, we = 1
-    #getram r1 r2 c -> sub = 0, use2reg = 1, do_operation = 1, rom = 0, ram = 1, we = 1
-    #setram r1 r2 c -> sub = 0, use2reg = 1, do_operation = 1, rom = 0, ram = 1, we = 0
-    #rom r1 r2 c -> sub = 0, use2reg = 1, do_operation = 1, rom = 1, ram = 1, we = 1
+    #add r1 r2 -> sub = 0, use2reg = 1, do_operation = 1, ram = 0, we = 1
+    #sub r1 r2 -> sub = 1, use2reg = 1, do_operation = 1, ram = 0, we = 1
+    #movr r1 r2 -> sub = any, use2reg = 1, do_operation = 0, ram = 0, we = 1
+    #movc r1 c -> sub = any, use2reg = 0, do_operation = 0, ram = 0, we = 1
+    #getram r1 r2 c -> sub = 0, use2reg = 1, do_operation = 1, ram = 1, we = 1
+    #setram r1 r2 c -> sub = 0, use2reg = 1, do_operation = 1, ram = 1, we = 0
+    #rom r1 r2 c -> sub = 0, use2reg = 1, do_operation = 1, ram = 1, we = 1, isjump = 0
+    #jumpe r1 r2 c -> sub = 1, use2reg = 1, do_operation = 1, ram = 0, we = 0, isjump = 1
+    #jumpg r1 r2 c -> sub = 0
 
     #faciles à faire mais pas dans le tableau de base
-    #r1 <- r1 + c -> sub = 0, use2reg = 0, do_operation = 1, rom = 0, ram = 0, we = 1
-    #r1 <- r1 - c -> sub = 1, use2reg = 0, do_operation = 1, rom = 0, ram = 0, we = 1
+    #r1 <- r1 + c -> sub = 0, use2reg = 0, do_operation = 1, ram = 0, we = 1
+    #r1 <- r1 - c -> sub = 1, use2reg = 0, do_operation = 1, ram = 0, we = 1
     val1,val2 = mulreg(we,r1,Defer(16, lambda : result),r1,r2)
     bon_val2 = Mux(use2reg,c,val2)
-    bon_val1 = Mux(Or(ram,rom),val1,c)
+    bon_val1 = Mux(ram,val1,c)
     pre_result,_ = alu(sub,bon_val1,bon_val2)
     pre_result_regop = Mux(do_operation,bon_val2,pre_result)
-    pre_result_rom = ROM(16,16,pre_result)
     pre_result_ram = RAM(16,16,pre_result,Not(we),bon_val2,val1)
-    pre_result_romram = Mux(ram,pre_result_rom,pre_result_ram)
-    result = Mux(Or(rom,ram),pre_result_regop,pre_result_romram)
-    return result
+    result = Mux(ram,pre_result_regop,pre_result_ram)
+    return result,is0(result)
+
+def loop():
+    ligne = reg_16bit(Constant("1"),Defer(16, lambda : nouvligne))
+    instruction = ROM(16,32,ligne)
+    isjump = Select(5,instruction)
+    ligneplusun,_ = n_adder(ligne,Constant("0000000000000001"))
+    c = Slice(16,32,instruction)
+    res,a = execute(Slice(8,12,instruction),Slice(12,16,instruction),Select(0,instruction),c,Select(1,instruction),Select(2,instruction),Select(3,instruction),Select(4,instruction))
+    eventuelligne = Mux(isjump,ligneplusun,c)
+    nouvligne = Mux(a,ligneplusun,eventuelligne)
+    return res
 
 
 
 def main():
-    r1 = Input(4)
-    r2 = Input(4)
-    sub = Input(1)
-    c = Input(16)
-    use2reg = Input(1)
-    do_operation = Input(1)
-    rom = Input(1)
-    ram = Input(1)
-    we = Input(1)
-    re = loop(r1,r2,sub,c,use2reg,do_operation,rom,ram,we)
+    re = loop()
     re.set_as_output("re")

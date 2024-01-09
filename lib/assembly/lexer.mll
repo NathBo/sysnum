@@ -15,7 +15,9 @@
             [
                 ("stop", STOP);
                 ("add", ADD);
+                ("addc", ADDC);
                 ("sub", SUB);
+                ("subc", SUBC);
                 ("movr", MOVR);
                 ("movc", MOVC);
                 ("jump", JUMP);

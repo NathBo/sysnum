@@ -20,9 +20,9 @@ let convert_assembly =
     (
       fun call -> match call with
         | Stop -> Printf.fprintf channel "00000000000000000000000000000000\n"
-        | Add (Reg (r1), Reg(r2)) -> Printf.fprintf  channel "0010%s%s00000000000000000000\n" r1 r2
-        | Sub (Reg (r1), Reg (r2)) -> Printf.fprintf channel "0110%s%s00000000000000000000\n" r1 r2
-        | Movr (Reg (r1), Reg(r2)) -> Printf.fprintf channel "1010%s%s00000000000000000000\n" r1 r2
+        | Add (Reg (r1), Reg(r2)) -> Printf.fprintf  channel "01101000%s%s0000000000000000\n" r1 r2
+        | Sub (Reg (r1), Reg (r2)) -> Printf.fprintf channel "0110%s%s0000000000000000\n" r1 r2
+        | Movr (Reg (r1), Reg(r2)) -> Printf.fprintf channel "1010%s%s0000000000000000\n" r1 r2
         | Movc (Reg (r1), Const (c)) -> 
           if (String.length c) <> size_const then raise (Wrong_constant_size)
           else  Printf.fprintf channel "0011%s%s00000000\n" r1 c
