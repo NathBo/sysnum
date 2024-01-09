@@ -48,8 +48,6 @@ instruction:
     | SETRAM r1 = reg r2 = reg c = constant
         { Setram (r1, r2, c) }
     
-    | ROM r1 = reg r2 = reg c = constant
-        { Rom (r1, r2, c) }
 
 reg:
     | r = REG

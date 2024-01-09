@@ -13,7 +13,6 @@ type instruction =
 	| Jump of reg * reg * const
 	| Getram of reg * reg * const
 	| Setram of reg * reg * const
-	| Rom of reg * reg * const
 
 type file = File of instruction list
 

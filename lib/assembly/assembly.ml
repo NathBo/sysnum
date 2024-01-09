@@ -21,22 +21,19 @@ let convert_assembly =
       fun call -> match call with
         | Stop -> Printf.fprintf channel "00000000000000000000000000000000\n"
         | Add (Reg (r1), Reg(r2)) -> Printf.fprintf  channel "01101000%s%s0000000000000000\n" r1 r2
-        | Sub (Reg (r1), Reg (r2)) -> Printf.fprintf channel "0110%s%s0000000000000000\n" r1 r2
-        | Movr (Reg (r1), Reg(r2)) -> Printf.fprintf channel "1010%s%s0000000000000000\n" r1 r2
+        | Sub (Reg (r1), Reg (r2)) -> Printf.fprintf channel "11101000%s%s0000000000000000\n" r1 r2
+        | Movr (Reg (r1), Reg(r2)) -> Printf.fprintf channel "01001000%s%s0000000000000000\n" r1 r2
         | Movc (Reg (r1), Const (c)) -> 
           if (String.length c) <> size_const then raise (Wrong_constant_size)
-          else  Printf.fprintf channel "0011%s%s00000000\n" r1 c
+          else  Printf.fprintf channel ("00001000%s0000"^"%s\n") r1 c
         | Jump (Reg (r1), Reg (r2), Const (c)) -> 
           if (String.length c) <> size_const then raise (Wrong_constant_size)
-          else Printf.fprintf channel "0001%s%s%s0000\n" r1 r2 c
+          else Printf.fprintf channel "11100100%s%s%s\n" r1 r2 c
         | Getram (Reg (r1), Reg (r2), Const (c)) -> 
           if (String.length c) <> size_const then raise (Wrong_constant_size)
-          else Printf.fprintf channel "0101%s%s%s0000\n" r1 r2 c
+          else Printf.fprintf channel "01111000%s%s%s\n" r1 r2 c
         | Setram (Reg (r1), Reg (r2), Const (c)) ->
           if (String.length c) <> size_const then raise (Wrong_constant_size)
-          else Printf.fprintf channel "1001%s%s%s0000\n" r1 r2 c
-        | Rom (Reg (r1), Reg (r2), Const (c)) ->
-          if (String.length c) <> size_const then raise (Wrong_constant_size)
-          else Printf.fprintf channel "1101%s%s%s0000\n" r1 r2 c
+          else Printf.fprintf channel "01110000%s%s%s0000\n" r1 r2 c
     )
     calls;
