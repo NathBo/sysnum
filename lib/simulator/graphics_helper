@@ -1,0 +1,41 @@
+open Graphics
+open Unix
+open Netlist_ast
+
+let screen_width = 624 and screen_height = 320
+
+let screen_init () = 
+  open_graph ((string_of_int screen_width) ^ "x" ^ (string_of_int screen_height));
+  set_window_title "clock";
+  set_color black;
+  fill_rect 0 0 (screen_width-1) (screen_height-1);;
+
+let draw_ram ram = 
+  if Array.length ram <> screen_width * screen_height then failwith "image size and window size do not match";
+  fill_rect 0 0 (screen_width-1) (screen_height-1);
+  set_color white;
+  let to_display = ref [] in
+  for i = 0 to screen_height - 1 do
+    for j = 0 to screen_width - 1 do
+      if ram.(i*screen_width + j) = VBit(true) then to_display := (j, i) :: !to_display
+      done
+    done;
+  plots (Array.of_list !to_display);
+  set_color black;;
+
+let update_display to_change_white to_change_black =
+  let update color, lst = 
+    set_color color;
+    let to_display = List.iter (fun i -> (i mod screen_width, i / screen_width)) lst in
+    plots (Array.of_list to_display);
+  List.iter update [(white; to_change_white); [black; to_change_black]];;
+
+(*
+let tests () = 
+  screen_init ();
+  for _ = 1 to 10 do
+    let ram = Array.init (screen_width*screen_height) (fun _ -> VBit(Random.bool ())) in
+    draw_ram ram;
+    sleep 5
+  done;;
+*)
