@@ -5,10 +5,11 @@ open Netlist_ast
 let screen_width = 624 and screen_height = 320
 
 let screen_init () = 
-  open_graph ((string_of_int screen_width) ^ "x" ^ (string_of_int screen_height));
+  open_graph (" " ^ (string_of_int screen_width) ^ "x" ^ (string_of_int screen_height)); (*oui, il faut un espace en premier*)
   set_window_title "clock";
   set_color black;
-  fill_rect 0 0 (screen_width-1) (screen_height-1);;
+  fill_rect 0 0 (screen_width-1) (screen_height-1);
+  auto_synchronize false;;
 
 let draw_ram ram = 
   if Array.length ram <> screen_width * screen_height then failwith "image size and window size do not match";
@@ -21,14 +22,16 @@ let draw_ram ram =
       done
     done;
   plots (Array.of_list !to_display);
-  set_color black;;
+  set_color black;
+  synchronize ();;
 
 let update_display to_change_white to_change_black =
-  let update color, lst = 
+  let update (color, lst) = 
     set_color color;
-    let to_display = List.iter (fun i -> (i mod screen_width, i / screen_width)) lst in
-    plots (Array.of_list to_display);
-  List.iter update [(white; to_change_white); [black; to_change_black]];;
+    let to_display = List.map (fun i -> i mod screen_width, i / screen_width) lst in
+    plots (Array.of_list to_display) in
+  List.iter update [(white; to_change_white); (black; to_change_black)];
+  synchronize ();;
 
 (*
 let tests () = 
