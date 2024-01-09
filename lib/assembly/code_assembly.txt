@@ -1,0 +1,4 @@
+movc ra 15
+movc rb 23
+add ra rb
+
