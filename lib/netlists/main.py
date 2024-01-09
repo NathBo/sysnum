@@ -75,10 +75,10 @@ def wmux4(addr):
     return Mux(addr[1],Concat(wmux2(addr),Constant("00")),Concat(Constant("00"),wmux2(addr)))
 
 def wmux8(addr):
-    return Mux(addr[1],Concat(wmux4(addr),Constant("0000")),Concat(Constant("0000"),wmux4(addr)))
+    return Mux(addr[2],Concat(wmux4(addr),Constant("0000")),Concat(Constant("0000"),wmux4(addr)))
 
 def wmux16(addr):
-    return Mux(addr[1],Concat(wmux8(addr),Constant("00000000")),Concat(Constant("00000000"),wmux8(addr)))
+    return Mux(addr[3],Concat(wmux8(addr),Constant("00000000")),Concat(Constant("00000000"),wmux8(addr)))
 
 
 def mulreg(we,waddr,wdata,raddr1,raddr2):
@@ -124,15 +124,18 @@ def loop():
     ligne = reg_16bit(Constant("1"),Defer(16, lambda : nouvligne))
     instruction = ROM(16,32,ligne)
     isjump = Select(5,instruction)
-    ligneplusun,_ = n_adder(ligne,Constant("0000000000000001"))
+    ligneplusun,_ = n_adder(ligne,Constant("1000000000000000"))
     c = Slice(16,32,instruction)
     res,a = execute(Slice(8,12,instruction),Slice(12,16,instruction),Select(0,instruction),c,Select(1,instruction),Select(2,instruction),Select(3,instruction),Select(4,instruction))
     eventuelligne = Mux(isjump,ligneplusun,c)
     nouvligne = Mux(a,ligneplusun,eventuelligne)
-    return res
+    return res,ligne,instruction,Slice(8,12,instruction)
 
 
 
 def main():
-    re = loop()
+    re,l,i,s = loop()
     re.set_as_output("re")
+    l.set_as_output("l")
+    i.set_as_output("i")
+    s.set_as_output("sa")

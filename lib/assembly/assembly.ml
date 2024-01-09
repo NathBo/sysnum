@@ -1,5 +1,5 @@
-open Parser
 open Ast
+open Parser
 open Lexer
 
 exception Wrong_constant_size

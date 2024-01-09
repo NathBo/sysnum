@@ -1,4 +1,4 @@
 movc ra 15
 movc rb 23
-add ra rb
-
+addc ra 1
+add rb ra
