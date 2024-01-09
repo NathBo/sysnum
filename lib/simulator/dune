@@ -1,0 +1,5 @@
+(executable
+ (name graphics_helper)
+ (libraries graphics unix)
+ (promote (until-clean))
+ (flags ()))
