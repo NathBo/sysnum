@@ -1,0 +1,107 @@
+movc rj 0 //Chargement de toutes les valeurs nécessaires pour commencer
+getram ra rj 1
+getram rb rj 2
+getram rc rj 3
+getram rd rj 4
+getram re rj 5
+getram rf rj 6
+movr rg rf // Initialisation du compteur modulo 4
+compc rg 4 LIGNE_INIT_MOD_100
+movc rj 4
+sub rg rj
+jump ra ra LIGNE_INIT_MOD_4
+movr rh rf // Initialisation du compteur modulo 100
+compc rg 4 LIGNE_INIT_MOD_400
+movc rj 100
+sub rh rj
+jump ra ra LIGNE_INIT_MOD_100
+movr ri rf // Initialisation du compteur modulo 400
+compc rg 4 LIGNE_TEST_DEBUT
+movc rj 400
+sub ri rj
+jump ra ra LIGNE_INIT_MOD_400
+movc rj 0 // Test pour savoir s'il faut ajouter une seconde ou non
+getram rk rj 0
+jump rj rk LIGNE_DU_TEST
+addc ra 1 // Début du programme, gestion des secondes
+movc rj 60
+jump ra rj LIGNE_DES_MINUTES 
+jump ra ra LIGNE_DU_DEBUT
+movc ra 0 // Gestion des minutes
+addc rb 1
+movc rj 60
+jump rb rj LIGNE_DES_HEURES
+jump ra ra LIGNE_DU_DEBUT
+movc rb 0 // Gestion des heures
+addc rc 1
+movc rj 24
+jump rc rj LIGNE_DES_JOURS
+movc rc 0 // Gestion des jours, un peu compliqué parce qu'il faut gérer les années bissextiles et tous les mois différents
+addc rd 1
+movc rj 1
+jump re rj LIGNE_MOIS_31
+movc rj 2
+jump re rj LIGNE_MOIS_FEVRIER
+movc rj 3
+jump re rj LIGNE_MOIS_31
+movc rj 4
+jump re rj LIGNE_MOIS_30
+movc rj 5
+jump re rj LIGNE_MOIS_31
+movc rj 6
+jump re rj LIGNE_MOIS_30
+movc rj 7
+jump re rj LIGNE_MOIS_31
+movc rj 8
+jump re rj LIGNE_MOIS_31
+movc rj 9
+jump re rj LIGNE_MOIS_30
+movc rj 10
+jump re rj LIGNE_MOIS_31
+movc rj 11
+jump re rj LIGNE_MOIS_30
+movc rj 12
+jump re rj LIGNE_MOIS_31
+movc rj 31 // Gestion des mois de 31 jours, c'est à dire qu'on charge la bonne constante dans le registre rj
+jump ra ra LIGNE_AUGMENTATION_JOUR
+movc rj 30 // Gestion des mois de 30 jours
+jump ra ra LIGNE_AUGMENTATION_JOUR
+movc rk 0 // Gestion du mois de février, un peu plus compliqué car c'est ici qu'on va gérer les années bissextiles
+jump rk ri LIGNE_CHARGEMENT_29
+jump rk rh LIGNE_CHARGEMENT_28
+jump rk rg LIGNE_CHARGEMENT_29
+movc rj 29 // Chargement de 29 dans rj constante pour le mois de février
+jump ra ra LIGNE_AUGMENTATION_JOUR
+movc rj 28 // Chargement de 28 dans la constante rj pour le moi de février
+jump ra ra LIGNE_AUGMENTATION_JOUR
+addc rd 1 // Augmentation des jours
+addc rj 1
+jump rd rj LIGNE_DES_MOIS
+jump ra ra LIGNE_DU_DEBUT
+movc rd 1 // Augmentation des mois
+addc re 1
+movc rj 13
+jump re rj LIGNE_DES_ANNEES
+jump ra ra LIGNE_DU_DEBUT
+movc re 1 // Gestion des années
+addc rf 1
+addc rg 1
+addc rh 1
+addc ri 1
+movc rj 400
+jump ri rj LIGNE_DE_REMISE_A_ZERO_DE_TOUS_LES_COMPTEURS
+movc rj 100
+jump rh rj LIGNE_DE_REMISE_A_ZERO_DES_COMPTEURS_MOD100_ET_MOD4
+movc rj 4
+jump rg rj LIGNE_DE_REMISE_A_ZERO_DU_COMPTEUR_MOD4
+movc ri 0 // Remise à zéro des trois compteurs
+movc rh 0
+movc rg 0
+jump ra ra LIGNE_DU_DEBUT
+movc rh 0 // Remise à zéro des deux compteurs
+movc rg 0
+jump ra ra LIGNE_DU_DEBUT
+movc rg 0 // Remise à zéro du compteur mod 4
+jump ra ra LIGNE_DU_DEBUT
+
+
