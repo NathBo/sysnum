@@ -66,13 +66,32 @@ let word = letter+
 rule next_token = parse
     | whitespace
         { next_token lexbuf}
+
     | newline
         { NEWLINE }
+
     | word as w
         { resolve_keywords w }
+
     | number as n
         { CONST( convert_to_base_2 (int_of_string (n))) }
+
+    | "//"
+        { comment lexbuf }
+
     | eof
         { EOF }
+
     | _
         { raise (Lexing_error ("Invalid instruction"))}
+
+
+and comment = parse
+    | newline
+        { NEWLINE }
+
+    | eof
+        { EOF }
+
+    | _
+        { comment lexbuf }
