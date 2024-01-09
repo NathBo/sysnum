@@ -86,14 +86,17 @@ jump ra ra LIGNE_DU_DEBUT
 
 
 (* Gestion des années *)
+movc rd 1
 addc rf 1
 addc ri 1
 addc rh 1
 addc rg 1
+movc rj 400
+jump ri rj LIGNE_DE_REMISE_A_ZERO_DE_TOUS_LES_COMPTEURS
 movc rj 100
-jump rh rj LIGNE_DE_REMISE_A_ZERO_DES_COMPTEURS
+jump rh rj LIGNE_DE_REMISE_A_ZERO_DES_COMPTEURS_MOD100_ET_MOD4
 movc rj 4
-jump rh rj LIGNE_DE_REMISE_A_ZERO_DU_COMPTEUR_MOD4
+jump rg rj LIGNE_DE_REMISE_A_ZERO_DU_COMPTEUR_MOD4
 
 (*Remise à zéro des trois compteurs*)
 movc ri 0
