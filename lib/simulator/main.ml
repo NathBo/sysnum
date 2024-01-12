@@ -11,12 +11,43 @@ type val_env = value Env.t
 
 let simulator p number_steps script = 
   
-  let prev_env = ref Env.empty in (* ou val_env.empty*)
-  let ram = Array.init 0 (screen_width*screen_height + 1000) in
-  let ic = open_in script in 
-  let rom = Array.map (fun s -> Vbit(bool_of_string x)) (Array.of_seq (String.to_seq (input_line ic))) in
-  let time = localtime (time())
-  ram.() <-  (*donner heure initiale*)
+  let to_16b n = 
+    let rec d2b y lst = match y with 0 -> lst
+        | _ -> d2b (y/2) ((y mod 2) :: lst)
+      in
+      let final = d2b n [] in
+      (List.init (16-List.length final) (fun _ -> 0)) @ final
+    in
+
+  let prev_env = ref Env.empty in
+  let ram = Array.make false (m_width*m_height + TODO) in
+
+  let get_lines file = 
+    let lines = ref [] in
+    let chan = open_in file in
+    try
+      while true; do
+        lines := input_line chan :: !lines
+      done; !lines
+    with End_of_file ->
+      close_in chan;
+      List.rev !lines 
+    in
+  let lines = get_lines script in
+  let rom = Array.make 0 (32*List.length lines) in
+  let i = ref 0 in
+  List.iter (fun line -> 
+      for j = 0 to 31 do 
+          rom.(32* !i + j) <- int_of_char line.[j]
+      done;
+      i := !i + 32) lines;
+  (*let rom = Array.map (fun s -> Vbit(bool_of_string x)) (Array.of_seq (String.to_seq (input_line ic))) in*)
+
+  let t = localtime (time()) in
+  let sec = t.tm_sec and min = t.tm_min and hour = t.tm_hour and mday = t.tm_mday and mon = t.tm_mon and year = 1900 + t.tm_year in
+  TODO  (*donner heure initiale*);
+
+  let t = ref (time()) in
   let k = ref 0 in 
   while !k <> number_steps do
     (*print_string ("Step " ^ string_of_int (!k+1) ^ ":\n");*)
@@ -27,7 +58,7 @@ let simulator p number_steps script =
       |TBit -> (try VBit(booly (read_line ())) with |Not_byte -> (Format.printf "Wrong input\n%!"; read_input var))
       |TBitArray(n) -> (try let inp = read_line () in if String.length inp <> n then raise Not_byte else 
         VBitArray(Array.init n (fun t -> booly(String.make 1 inp.[t]))) with |Not_byte -> (Format.printf "Wrong input\n%!"; read_input var)) in
-    let current_env = List.fold_left (fun env var -> Env.add var (read_input var) env) Env.empty p.p_inputs in*)
+    let current_env = List.fold_left (fun env var -> Env.add var (read_input var) env) Env.empty p.p_inputs in *)
 
     let to_write = ref [] in
     let to_value env = function
@@ -61,8 +92,8 @@ let simulator p number_steps script =
       | Eselect(i, a) -> match to_value env a with 
         |VBit(a) -> VBit(a)
         |VBitArray(arr) -> VBit(arr.(i)) in
-    let add env eq = Env.add (fst eq) (eval env eq) env in
-    let current_env = List.fold_left add current_env p.p_eqs in
+    let add env eq =  Env.add (fst eq) (eval env eq) env in
+    let current_env = List.fold_left add Env.empty p.p_eqs in
 
     (*faire les writes de RAM*)
     let mem_add (we, addr_s, wrd_s, addr, data) = 
@@ -76,7 +107,17 @@ let simulator p number_steps script =
       update_display set_white set_black
     in
     List.iter mem_add !to_write;
+    
+    let input = get_input in
+    if input.Graphics.key_pressed then match input.Graphics.key with
+      |'m' | 'M' -> ram.(TODO) <- 1 
+      |'s' | 'S' -> ram.(TODO) <- 1 
+      |'r' | 'R' -> ram.(TODO) <- 1 
+      |_ -> ()
 
+    if time() > !t + 1 then
+      (ram.(TODO) <- 1; incr t)
+    
     (*print l'output, pas utile ici
     prev_env := current_env;
     let to_string = function 
