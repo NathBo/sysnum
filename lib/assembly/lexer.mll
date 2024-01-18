@@ -79,6 +79,9 @@ rule next_token = parse
     | "//"
         { comment lexbuf }
 
+    | "(*"
+        {comment2 lexbuf}
+
     | eof
         { EOF }
 
@@ -88,10 +91,17 @@ rule next_token = parse
 
 and comment = parse
     | newline
-        { NEWLINE }
+        { next_token lexbuf }
 
     | eof
         { EOF }
 
     | _
         { comment lexbuf }
+
+and comment2 = parse
+    | "*)"
+        {next_token lexbuf}
+    
+    | _
+        {comment2 lexbuf}

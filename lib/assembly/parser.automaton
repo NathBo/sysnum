@@ -1,0 +1,493 @@
+State 0:
+## Known stack suffix:
+##
+## LR(1) items:
+file' -> . file [ # ]
+## Transitions:
+-- On NEWLINE shift to state 1
+-- On list(NEWLINE) shift to state 3
+-- On file shift to state 45
+## Reductions:
+-- On SUBC SUB STOP SETRAM MOVR MOVC JUMP GETRAM EOF ADDC ADD
+--   reduce production list(NEWLINE) ->
+
+State 1:
+## Known stack suffix:
+## NEWLINE
+## LR(1) items:
+list(NEWLINE) -> NEWLINE . list(NEWLINE) [ SUBC SUB STOP SETRAM MOVR MOVC JUMP GETRAM EOF ADDC ADD ]
+## Transitions:
+-- On NEWLINE shift to state 1
+-- On list(NEWLINE) shift to state 2
+## Reductions:
+-- On SUBC SUB STOP SETRAM MOVR MOVC JUMP GETRAM EOF ADDC ADD
+--   reduce production list(NEWLINE) ->
+
+State 2:
+## Known stack suffix:
+## NEWLINE list(NEWLINE)
+## LR(1) items:
+list(NEWLINE) -> NEWLINE list(NEWLINE) . [ SUBC SUB STOP SETRAM MOVR MOVC JUMP GETRAM EOF ADDC ADD ]
+## Transitions:
+## Reductions:
+-- On SUBC SUB STOP SETRAM MOVR MOVC JUMP GETRAM EOF ADDC ADD
+--   reduce production list(NEWLINE) -> NEWLINE list(NEWLINE)
+
+State 3:
+## Known stack suffix:
+## list(NEWLINE)
+## LR(1) items:
+file -> list(NEWLINE) . loption(separated_nonempty_list(nonempty_list(NEWLINE),instruction)) EOF [ # ]
+## Transitions:
+-- On SUBC shift to state 4
+-- On SUB shift to state 9
+-- On STOP shift to state 12
+-- On SETRAM shift to state 13
+-- On MOVR shift to state 17
+-- On MOVC shift to state 20
+-- On JUMP shift to state 23
+-- On GETRAM shift to state 27
+-- On ADDC shift to state 31
+-- On ADD shift to state 34
+-- On separated_nonempty_list(nonempty_list(NEWLINE),instruction) shift to state 37
+-- On loption(separated_nonempty_list(nonempty_list(NEWLINE),instruction)) shift to state 38
+-- On instruction shift to state 40
+## Reductions:
+-- On EOF
+--   reduce production loption(separated_nonempty_list(nonempty_list(NEWLINE),instruction)) ->
+
+State 4:
+## Known stack suffix:
+## SUBC
+## LR(1) items:
+instruction -> SUBC . reg constant [ NEWLINE EOF ]
+## Transitions:
+-- On REG shift to state 5
+-- On reg shift to state 6
+## Reductions:
+
+State 5:
+## Known stack suffix:
+## REG
+## LR(1) items:
+reg -> REG . [ REG NEWLINE EOF CONST ]
+## Transitions:
+## Reductions:
+-- On REG NEWLINE EOF CONST
+--   reduce production reg -> REG
+
+State 6:
+## Known stack suffix:
+## SUBC reg
+## LR(1) items:
+instruction -> SUBC reg . constant [ NEWLINE EOF ]
+## Transitions:
+-- On CONST shift to state 7
+-- On constant shift to state 8
+## Reductions:
+
+State 7:
+## Known stack suffix:
+## CONST
+## LR(1) items:
+constant -> CONST . [ NEWLINE EOF ]
+## Transitions:
+## Reductions:
+-- On NEWLINE EOF
+--   reduce production constant -> CONST
+
+State 8:
+## Known stack suffix:
+## SUBC reg constant
+## LR(1) items:
+instruction -> SUBC reg constant . [ NEWLINE EOF ]
+## Transitions:
+## Reductions:
+-- On NEWLINE EOF
+--   reduce production instruction -> SUBC reg constant
+
+State 9:
+## Known stack suffix:
+## SUB
+## LR(1) items:
+instruction -> SUB . reg reg [ NEWLINE EOF ]
+## Transitions:
+-- On REG shift to state 5
+-- On reg shift to state 10
+## Reductions:
+
+State 10:
+## Known stack suffix:
+## SUB reg
+## LR(1) items:
+instruction -> SUB reg . reg [ NEWLINE EOF ]
+## Transitions:
+-- On REG shift to state 5
+-- On reg shift to state 11
+## Reductions:
+
+State 11:
+## Known stack suffix:
+## SUB reg reg
+## LR(1) items:
+instruction -> SUB reg reg . [ NEWLINE EOF ]
+## Transitions:
+## Reductions:
+-- On NEWLINE EOF
+--   reduce production instruction -> SUB reg reg
+
+State 12:
+## Known stack suffix:
+## STOP
+## LR(1) items:
+instruction -> STOP . [ NEWLINE EOF ]
+## Transitions:
+## Reductions:
+-- On NEWLINE EOF
+--   reduce production instruction -> STOP
+
+State 13:
+## Known stack suffix:
+## SETRAM
+## LR(1) items:
+instruction -> SETRAM . reg reg constant [ NEWLINE EOF ]
+## Transitions:
+-- On REG shift to state 5
+-- On reg shift to state 14
+## Reductions:
+
+State 14:
+## Known stack suffix:
+## SETRAM reg
+## LR(1) items:
+instruction -> SETRAM reg . reg constant [ NEWLINE EOF ]
+## Transitions:
+-- On REG shift to state 5
+-- On reg shift to state 15
+## Reductions:
+
+State 15:
+## Known stack suffix:
+## SETRAM reg reg
+## LR(1) items:
+instruction -> SETRAM reg reg . constant [ NEWLINE EOF ]
+## Transitions:
+-- On CONST shift to state 7
+-- On constant shift to state 16
+## Reductions:
+
+State 16:
+## Known stack suffix:
+## SETRAM reg reg constant
+## LR(1) items:
+instruction -> SETRAM reg reg constant . [ NEWLINE EOF ]
+## Transitions:
+## Reductions:
+-- On NEWLINE EOF
+--   reduce production instruction -> SETRAM reg reg constant
+
+State 17:
+## Known stack suffix:
+## MOVR
+## LR(1) items:
+instruction -> MOVR . reg reg [ NEWLINE EOF ]
+## Transitions:
+-- On REG shift to state 5
+-- On reg shift to state 18
+## Reductions:
+
+State 18:
+## Known stack suffix:
+## MOVR reg
+## LR(1) items:
+instruction -> MOVR reg . reg [ NEWLINE EOF ]
+## Transitions:
+-- On REG shift to state 5
+-- On reg shift to state 19
+## Reductions:
+
+State 19:
+## Known stack suffix:
+## MOVR reg reg
+## LR(1) items:
+instruction -> MOVR reg reg . [ NEWLINE EOF ]
+## Transitions:
+## Reductions:
+-- On NEWLINE EOF
+--   reduce production instruction -> MOVR reg reg
+
+State 20:
+## Known stack suffix:
+## MOVC
+## LR(1) items:
+instruction -> MOVC . reg constant [ NEWLINE EOF ]
+## Transitions:
+-- On REG shift to state 5
+-- On reg shift to state 21
+## Reductions:
+
+State 21:
+## Known stack suffix:
+## MOVC reg
+## LR(1) items:
+instruction -> MOVC reg . constant [ NEWLINE EOF ]
+## Transitions:
+-- On CONST shift to state 7
+-- On constant shift to state 22
+## Reductions:
+
+State 22:
+## Known stack suffix:
+## MOVC reg constant
+## LR(1) items:
+instruction -> MOVC reg constant . [ NEWLINE EOF ]
+## Transitions:
+## Reductions:
+-- On NEWLINE EOF
+--   reduce production instruction -> MOVC reg constant
+
+State 23:
+## Known stack suffix:
+## JUMP
+## LR(1) items:
+instruction -> JUMP . reg reg constant [ NEWLINE EOF ]
+## Transitions:
+-- On REG shift to state 5
+-- On reg shift to state 24
+## Reductions:
+
+State 24:
+## Known stack suffix:
+## JUMP reg
+## LR(1) items:
+instruction -> JUMP reg . reg constant [ NEWLINE EOF ]
+## Transitions:
+-- On REG shift to state 5
+-- On reg shift to state 25
+## Reductions:
+
+State 25:
+## Known stack suffix:
+## JUMP reg reg
+## LR(1) items:
+instruction -> JUMP reg reg . constant [ NEWLINE EOF ]
+## Transitions:
+-- On CONST shift to state 7
+-- On constant shift to state 26
+## Reductions:
+
+State 26:
+## Known stack suffix:
+## JUMP reg reg constant
+## LR(1) items:
+instruction -> JUMP reg reg constant . [ NEWLINE EOF ]
+## Transitions:
+## Reductions:
+-- On NEWLINE EOF
+--   reduce production instruction -> JUMP reg reg constant
+
+State 27:
+## Known stack suffix:
+## GETRAM
+## LR(1) items:
+instruction -> GETRAM . reg reg constant [ NEWLINE EOF ]
+## Transitions:
+-- On REG shift to state 5
+-- On reg shift to state 28
+## Reductions:
+
+State 28:
+## Known stack suffix:
+## GETRAM reg
+## LR(1) items:
+instruction -> GETRAM reg . reg constant [ NEWLINE EOF ]
+## Transitions:
+-- On REG shift to state 5
+-- On reg shift to state 29
+## Reductions:
+
+State 29:
+## Known stack suffix:
+## GETRAM reg reg
+## LR(1) items:
+instruction -> GETRAM reg reg . constant [ NEWLINE EOF ]
+## Transitions:
+-- On CONST shift to state 7
+-- On constant shift to state 30
+## Reductions:
+
+State 30:
+## Known stack suffix:
+## GETRAM reg reg constant
+## LR(1) items:
+instruction -> GETRAM reg reg constant . [ NEWLINE EOF ]
+## Transitions:
+## Reductions:
+-- On NEWLINE EOF
+--   reduce production instruction -> GETRAM reg reg constant
+
+State 31:
+## Known stack suffix:
+## ADDC
+## LR(1) items:
+instruction -> ADDC . reg constant [ NEWLINE EOF ]
+## Transitions:
+-- On REG shift to state 5
+-- On reg shift to state 32
+## Reductions:
+
+State 32:
+## Known stack suffix:
+## ADDC reg
+## LR(1) items:
+instruction -> ADDC reg . constant [ NEWLINE EOF ]
+## Transitions:
+-- On CONST shift to state 7
+-- On constant shift to state 33
+## Reductions:
+
+State 33:
+## Known stack suffix:
+## ADDC reg constant
+## LR(1) items:
+instruction -> ADDC reg constant . [ NEWLINE EOF ]
+## Transitions:
+## Reductions:
+-- On NEWLINE EOF
+--   reduce production instruction -> ADDC reg constant
+
+State 34:
+## Known stack suffix:
+## ADD
+## LR(1) items:
+instruction -> ADD . reg reg [ NEWLINE EOF ]
+## Transitions:
+-- On REG shift to state 5
+-- On reg shift to state 35
+## Reductions:
+
+State 35:
+## Known stack suffix:
+## ADD reg
+## LR(1) items:
+instruction -> ADD reg . reg [ NEWLINE EOF ]
+## Transitions:
+-- On REG shift to state 5
+-- On reg shift to state 36
+## Reductions:
+
+State 36:
+## Known stack suffix:
+## ADD reg reg
+## LR(1) items:
+instruction -> ADD reg reg . [ NEWLINE EOF ]
+## Transitions:
+## Reductions:
+-- On NEWLINE EOF
+--   reduce production instruction -> ADD reg reg
+
+State 37:
+## Known stack suffix:
+## separated_nonempty_list(nonempty_list(NEWLINE),instruction)
+## LR(1) items:
+loption(separated_nonempty_list(nonempty_list(NEWLINE),instruction)) -> separated_nonempty_list(nonempty_list(NEWLINE),instruction) . [ EOF ]
+## Transitions:
+## Reductions:
+-- On EOF
+--   reduce production loption(separated_nonempty_list(nonempty_list(NEWLINE),instruction)) -> separated_nonempty_list(nonempty_list(NEWLINE),instruction)
+
+State 38:
+## Known stack suffix:
+## list(NEWLINE) loption(separated_nonempty_list(nonempty_list(NEWLINE),instruction))
+## LR(1) items:
+file -> list(NEWLINE) loption(separated_nonempty_list(nonempty_list(NEWLINE),instruction)) . EOF [ # ]
+## Transitions:
+-- On EOF shift to state 39
+## Reductions:
+
+State 39:
+## Known stack suffix:
+## list(NEWLINE) loption(separated_nonempty_list(nonempty_list(NEWLINE),instruction)) EOF
+## LR(1) items:
+file -> list(NEWLINE) loption(separated_nonempty_list(nonempty_list(NEWLINE),instruction)) EOF . [ # ]
+## Transitions:
+## Reductions:
+-- On #
+--   reduce production file -> list(NEWLINE) loption(separated_nonempty_list(nonempty_list(NEWLINE),instruction)) EOF
+
+State 40:
+## Known stack suffix:
+## instruction
+## LR(1) items:
+separated_nonempty_list(nonempty_list(NEWLINE),instruction) -> instruction . [ EOF ]
+separated_nonempty_list(nonempty_list(NEWLINE),instruction) -> instruction . nonempty_list(NEWLINE) separated_nonempty_list(nonempty_list(NEWLINE),instruction) [ EOF ]
+## Transitions:
+-- On NEWLINE shift to state 41
+-- On nonempty_list(NEWLINE) shift to state 43
+## Reductions:
+-- On EOF
+--   reduce production separated_nonempty_list(nonempty_list(NEWLINE),instruction) -> instruction
+
+State 41:
+## Known stack suffix:
+## NEWLINE
+## LR(1) items:
+nonempty_list(NEWLINE) -> NEWLINE . [ SUBC SUB STOP SETRAM MOVR MOVC JUMP GETRAM ADDC ADD ]
+nonempty_list(NEWLINE) -> NEWLINE . nonempty_list(NEWLINE) [ SUBC SUB STOP SETRAM MOVR MOVC JUMP GETRAM ADDC ADD ]
+## Transitions:
+-- On NEWLINE shift to state 41
+-- On nonempty_list(NEWLINE) shift to state 42
+## Reductions:
+-- On SUBC SUB STOP SETRAM MOVR MOVC JUMP GETRAM ADDC ADD
+--   reduce production nonempty_list(NEWLINE) -> NEWLINE
+
+State 42:
+## Known stack suffix:
+## NEWLINE nonempty_list(NEWLINE)
+## LR(1) items:
+nonempty_list(NEWLINE) -> NEWLINE nonempty_list(NEWLINE) . [ SUBC SUB STOP SETRAM MOVR MOVC JUMP GETRAM ADDC ADD ]
+## Transitions:
+## Reductions:
+-- On SUBC SUB STOP SETRAM MOVR MOVC JUMP GETRAM ADDC ADD
+--   reduce production nonempty_list(NEWLINE) -> NEWLINE nonempty_list(NEWLINE)
+
+State 43:
+## Known stack suffix:
+## instruction nonempty_list(NEWLINE)
+## LR(1) items:
+separated_nonempty_list(nonempty_list(NEWLINE),instruction) -> instruction nonempty_list(NEWLINE) . separated_nonempty_list(nonempty_list(NEWLINE),instruction) [ EOF ]
+## Transitions:
+-- On SUBC shift to state 4
+-- On SUB shift to state 9
+-- On STOP shift to state 12
+-- On SETRAM shift to state 13
+-- On MOVR shift to state 17
+-- On MOVC shift to state 20
+-- On JUMP shift to state 23
+-- On GETRAM shift to state 27
+-- On ADDC shift to state 31
+-- On ADD shift to state 34
+-- On separated_nonempty_list(nonempty_list(NEWLINE),instruction) shift to state 44
+-- On instruction shift to state 40
+## Reductions:
+
+State 44:
+## Known stack suffix:
+## instruction nonempty_list(NEWLINE) separated_nonempty_list(nonempty_list(NEWLINE),instruction)
+## LR(1) items:
+separated_nonempty_list(nonempty_list(NEWLINE),instruction) -> instruction nonempty_list(NEWLINE) separated_nonempty_list(nonempty_list(NEWLINE),instruction) . [ EOF ]
+## Transitions:
+## Reductions:
+-- On EOF
+--   reduce production separated_nonempty_list(nonempty_list(NEWLINE),instruction) -> instruction nonempty_list(NEWLINE) separated_nonempty_list(nonempty_list(NEWLINE),instruction)
+
+State 45:
+## Known stack suffix:
+## file
+## LR(1) items:
+file' -> file . [ # ]
+## Transitions:
+## Reductions:
+-- On #
+--   accept file
+

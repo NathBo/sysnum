@@ -14,7 +14,7 @@
 %%
 
 file:
-    | list_instructions = separated_list (NEWLINE, instruction) EOF
+    | NEWLINE*; list_instructions = separated_list (NEWLINE+,instruction); EOF
         { File (list_instructions) }
 
 instruction:
