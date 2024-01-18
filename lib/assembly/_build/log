@@ -3,7 +3,7 @@
 # Shared cache: disabled
 # Workspace root: /home/nathan/sysnum/lib/assembly
 # Auto-detected concurrency: 6
-$ /usr/bin/ocamlc.opt -config > /tmp/dune_474cda_output
+$ /usr/bin/ocamlc.opt -config > /tmp/dune_91cab1_output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -138,5 +138,3 @@ $ /usr/bin/ocamlc.opt -config > /tmp/dune_474cda_output
 #      }
 #  ; instrument_with = []
 #  }
-$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl assembly.ml) > _build/default/.assembly.eobjs/dune__exe__Assembly.impl.d
-$ (cd _build/default && /usr/bin/ocamlopt.opt -g -I .assembly.eobjs/byte -I .assembly.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .assembly.eobjs/native/dune__exe__Assembly.cmx -c -impl assembly.ml)

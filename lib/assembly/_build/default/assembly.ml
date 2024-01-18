@@ -7,7 +7,7 @@ exception Wrong_constant_size
 let size_reg = 4
 let size_const = 16
 
-let input = "code_assembly.txt"
+let input = "clock-version-sans-les-mois.txt"
 let output = "code_cpu.txt"
 
 let convert_assembly = 
