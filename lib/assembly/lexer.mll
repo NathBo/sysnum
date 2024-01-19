@@ -23,6 +23,7 @@
                 ("jump", JUMP);
                 ("getram", GETRAM);
                 ("setram", SETRAM);
+                ("label", LABEL);
 
                 ("ra", REG( "0000" )); 
                 ("rb", REG( "0001" ));
@@ -44,7 +45,7 @@
             ]
         );
         fun kw -> try Hashtbl.find keywords kw
-                  with Not_found -> raise (Lexing_error ("Keyword not found"))
+                  with Not_found -> raise (Lexing_error ("Keyword not found "^kw))
     
     let convert_to_base_2 n = 
         let rec aux cur_val cur_bit = match (cur_val, cur_bit) with
@@ -58,9 +59,11 @@
 
 let letter = ['a'-'z']
 let whitespace = [' ' '\t']
+let bigletter = ['A' - 'Z' '_' '0' - '9']
+let bigword = bigletter+
 let newline = ['\n']
 let digit = ['0'-'9']
-let number = digit*
+let number = digit+
 let word = letter+
 
 rule next_token = parse
@@ -75,6 +78,9 @@ rule next_token = parse
 
     | number as n
         { CONST( convert_to_base_2 (int_of_string (n))) }
+
+    | bigword as w
+        { LABELNAME(w) }
 
     | "//"
         { comment lexbuf }

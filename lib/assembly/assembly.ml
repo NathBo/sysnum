@@ -16,6 +16,15 @@ let convert_assembly =
   let File(calls) = Parser.file Lexer.next_token lb in
   close_in channel;
   let channel = open_out output in
+  let labels = Hashtbl.create 32 in
+  let cpt = ref 0 in
+  List.iter
+  (
+    fun call -> match  call with
+    | Label(Labelname(s)) -> Hashtbl.add labels s !cpt
+    | _ -> incr cpt
+  )
+  calls;
   List.iter
     (
       fun call -> match call with
@@ -28,14 +37,14 @@ let convert_assembly =
         | Movc (Reg (r1), Const (c)) -> 
           if (String.length c) <> size_const then raise (Wrong_constant_size)
           else  Printf.fprintf channel "00001000%s0000%s\n" r1 c
-        | Jump (Reg (r1), Reg (r2), Const (c)) -> 
-          if (String.length c) <> size_const then raise (Wrong_constant_size)
-          else Printf.fprintf channel "11100100%s%s%s\n" r1 r2 c
+        | Jump (Reg (r1), Reg (r2), Labelname(s)) -> 
+          Printf.fprintf channel "11100100%s%s%s\n" r1 r2 (convert_to_base_2 (Hashtbl.find labels s))
         | Getram (Reg (r1), Reg (r2), Const (c)) -> 
           if (String.length c) <> size_const then raise (Wrong_constant_size)
           else Printf.fprintf channel "01111000%s%s%s\n" r1 r2 c
         | Setram (Reg (r1), Reg (r2), Const (c)) ->
           if (String.length c) <> size_const then raise (Wrong_constant_size)
           else Printf.fprintf channel "01110000%s%s%s0000\n" r1 r2 c
+        | Label(_) -> ()
     )
     calls;

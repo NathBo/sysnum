@@ -2,8 +2,8 @@
     open Ast
 %}
 
-%token STOP ADD ADDC SUB SUBC MOVR MOVC JUMP GETRAM SETRAM
-%token <string> REG
+%token STOP ADD ADDC SUB SUBC MOVR MOVC JUMP GETRAM SETRAM LABEL
+%token <string> REG LABELNAME
 %token <string> CONST
 %token NEWLINE
 %token EOF
@@ -39,14 +39,17 @@ instruction:
     | MOVC r = reg c = constant
         { Movc (r, c) }
 
-    | JUMP r1 = reg r2 = reg c = constant
-        { Jump (r1, r2, c) }
+    | JUMP r1 = reg r2 = reg l = labelname
+        { Jump (r1, r2, l) }
     
     | GETRAM r1 = reg r2 = reg c = constant
         { Getram (r1, r2, c) }
     
     | SETRAM r1 = reg r2 = reg c = constant
         { Setram (r1, r2, c) }
+
+    | LABEL s = labelname
+        { Label (s) }
     
 
 reg:
@@ -57,3 +60,6 @@ constant:
     | c = CONST
         { Const (c) }
 
+labelname:
+    | s = LABELNAME
+        { Labelname (s) }
