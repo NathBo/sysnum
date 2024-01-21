@@ -4,6 +4,13 @@ open Lexer
 
 exception Wrong_constant_size
 
+exception LabelNotDefined of string
+
+let hashtblfind h s =
+  if Hashtbl.mem h s
+  then Hashtbl.find h s
+  else raise (LabelNotDefined s)
+
 let size_reg = 4
 let size_const = 16
 
