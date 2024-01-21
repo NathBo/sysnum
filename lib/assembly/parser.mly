@@ -2,7 +2,7 @@
     open Ast
 %}
 
-%token STOP ADD ADDC SUB SUBC MOVR MOVC JUMP GETRAM SETRAM LABEL
+%token STOP ADD ADDC SUB SUBC MOVR MOVC JUMP GETRAM SETRAM LABEL COMPC
 %token <string> REG LABELNAME
 %token <string> CONST
 %token NEWLINE
@@ -14,7 +14,7 @@
 %%
 
 file:
-    | NEWLINE*; list_instructions = separated_list (NEWLINE+,instruction); EOF
+    | NEWLINE*; list_instructions = separated_list (NEWLINE+,instruction);  EOF
         { File (list_instructions) }
 
 instruction:
@@ -41,6 +41,9 @@ instruction:
 
     | JUMP r1 = reg r2 = reg l = labelname
         { Jump (r1, r2, l) }
+
+    | COMPC r1 = reg r2 = reg l = labelname
+        { Compc (r1, r2, l) }
     
     | GETRAM r1 = reg r2 = reg c = constant
         { Getram (r1, r2, c) }

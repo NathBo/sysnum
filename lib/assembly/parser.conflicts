@@ -1,0 +1,80 @@
+
+** Conflict (shift/reduce) in state 48.
+** Token involved: NEWLINE
+** This state is reached from file after reading:
+
+list(NEWLINE) instruction
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+file 
+(?)
+
+** In state 48, looking ahead at NEWLINE, shifting is permitted
+** because of the following sub-derivation:
+
+list(NEWLINE) loption(separated_nonempty_list(nonempty_list(NEWLINE),instruction)) list(NEWLINE) EOF 
+              separated_nonempty_list(nonempty_list(NEWLINE),instruction) 
+              instruction nonempty_list(NEWLINE) separated_nonempty_list(nonempty_list(NEWLINE),instruction) 
+                          . NEWLINE 
+
+** In state 48, looking ahead at NEWLINE, reducing production
+** separated_nonempty_list(nonempty_list(NEWLINE),instruction) -> instruction
+** is permitted because of the following sub-derivation:
+
+list(NEWLINE) loption(separated_nonempty_list(nonempty_list(NEWLINE),instruction)) list(NEWLINE) EOF // lookahead token appears because list(NEWLINE) can begin with NEWLINE
+              separated_nonempty_list(nonempty_list(NEWLINE),instruction) // lookahead token is inherited
+              instruction . 
+
+** Conflict (shift/reduce) in state 1.
+** Token involved: NEWLINE
+** This state is reached from file after reading:
+
+NEWLINE
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+file 
+(?)
+
+** In state 1, looking ahead at NEWLINE, reducing production
+** list(NEWLINE) ->
+** is permitted because of the following sub-derivation:
+
+list(NEWLINE) loption(separated_nonempty_list(nonempty_list(NEWLINE),instruction)) list(NEWLINE) EOF // lookahead token appears because loption(separated_nonempty_list(nonempty_list(NEWLINE),instruction)) can vanish and list(NEWLINE) can begin with NEWLINE
+NEWLINE list(NEWLINE) // lookahead token is inherited
+        . 
+
+** In state 1, looking ahead at NEWLINE, shifting is permitted
+** because of the following sub-derivation:
+
+list(NEWLINE) loption(separated_nonempty_list(nonempty_list(NEWLINE),instruction)) list(NEWLINE) EOF 
+NEWLINE list(NEWLINE) 
+        . NEWLINE list(NEWLINE) 
+
+** Conflict (shift/reduce) in state 0.
+** Token involved: NEWLINE
+** This state is reached from file after reading:
+
+
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+file 
+(?)
+
+** In state 0, looking ahead at NEWLINE, reducing production
+** list(NEWLINE) ->
+** is permitted because of the following sub-derivation:
+
+list(NEWLINE) loption(separated_nonempty_list(nonempty_list(NEWLINE),instruction)) list(NEWLINE) EOF // lookahead token appears because loption(separated_nonempty_list(nonempty_list(NEWLINE),instruction)) can vanish and list(NEWLINE) can begin with NEWLINE
+. 
+
+** In state 0, looking ahead at NEWLINE, shifting is permitted
+** because of the following sub-derivation:
+
+list(NEWLINE) loption(separated_nonempty_list(nonempty_list(NEWLINE),instruction)) list(NEWLINE) EOF 
+. NEWLINE list(NEWLINE) 

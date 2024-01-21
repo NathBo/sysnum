@@ -21,6 +21,7 @@
                 ("movr", MOVR);
                 ("movc", MOVC);
                 ("jump", JUMP);
+                ("compc", COMPC);
                 ("getram", GETRAM);
                 ("setram", SETRAM);
                 ("label", LABEL);

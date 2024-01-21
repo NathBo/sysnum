@@ -19,6 +19,7 @@ getram rd rj 4
 getram re rj 5
 getram rf rj 6
 
+
 (*Initialisation du compteur modulo 4*)
 movr rg rf
 compc rg 4 LIGNE_INIT_MOD_100
@@ -181,5 +182,3 @@ jump ra ra LIGNE_DU_DEBUT
 (* Remise à zéro du compteur mod 4 *)
 movc rg 0
 jump ra ra LIGNE_DU_DEBUT
-
-

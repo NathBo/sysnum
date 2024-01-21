@@ -39,6 +39,8 @@ let convert_assembly =
           else  Printf.fprintf channel "00001000%s0000%s\n" r1 c
         | Jump (Reg (r1), Reg (r2), Labelname(s)) -> 
           Printf.fprintf channel "11100100%s%s%s\n" r1 r2 (convert_to_base_2 (Hashtbl.find labels s))
+        | Compc (Reg (r1), Reg (r2), Labelname(s)) -> 
+            Printf.fprintf channel "11100100%s%s%s\n" r1 r2 (convert_to_base_2 (Hashtbl.find labels s))
         | Getram (Reg (r1), Reg (r2), Const (c)) -> 
           if (String.length c) <> size_const then raise (Wrong_constant_size)
           else Printf.fprintf channel "01111000%s%s%s\n" r1 r2 c

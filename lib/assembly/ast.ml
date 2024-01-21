@@ -13,6 +13,7 @@ type instruction =
 	| Movr of reg * reg
 	| Movc of reg * const
 	| Jump of reg * reg * labelname
+	| Compc of reg * reg * labelname
 	| Getram of reg * reg * const
 	| Setram of reg * reg * const
 	| Label of labelname
