@@ -54,6 +54,8 @@ let convert_assembly =
         | Setram (Reg (r1), Reg (r2), Const (c)) ->
           if (String.length c) <> size_const then raise (Wrong_constant_size)
           else Printf.fprintf channel "01110000%s%s%s0000\n" r1 r2 c
+        | Goreg(Reg(r1)) ->
+          Printf.fprintf channel "00000101%s00000000000000000000\n" r1
         | Label(_) -> ()
     )
     calls;

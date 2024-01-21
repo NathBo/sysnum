@@ -1,7 +1,8 @@
 movc ra 16
 movc rb 0
+movc rc 3
 
 label START
 
 addc rb 1
-compc ra rb START
+goreg rc

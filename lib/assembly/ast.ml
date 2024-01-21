@@ -17,6 +17,7 @@ type instruction =
 	| Getram of reg * reg * const
 	| Setram of reg * reg * const
 	| Label of labelname
+	| Goreg of reg
 
 type file = File of instruction list
 

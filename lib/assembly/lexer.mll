@@ -25,6 +25,7 @@
                 ("getram", GETRAM);
                 ("setram", SETRAM);
                 ("label", LABEL);
+                ("goreg", GOREG);
 
                 ("ra", REG( "0000" )); 
                 ("rb", REG( "0001" ));

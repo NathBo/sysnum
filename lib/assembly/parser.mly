@@ -2,7 +2,7 @@
     open Ast
 %}
 
-%token STOP ADD ADDC SUB SUBC MOVR MOVC JUMP GETRAM SETRAM LABEL COMPC
+%token STOP ADD ADDC SUB SUBC MOVR MOVC JUMP GETRAM SETRAM LABEL COMPC GOREG
 %token <string> REG LABELNAME
 %token <string> CONST
 %token NEWLINE
@@ -53,6 +53,9 @@ instruction:
 
     | LABEL s = labelname
         { Label (s) }
+
+    | GOREG r1 = reg
+        { Goreg(r1) }
     
 
 reg:
