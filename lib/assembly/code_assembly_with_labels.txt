@@ -1,0 +1,166 @@
+
+(* 
+ On considère que ra stocke les secondes, rb les minutes, rc les heures, rd les jours et re les mois, rf les années
+ rg le compteur modulo 4, rh le compteur modulo 100, ri le compteur modulo 400.
+ Les registres rj à ro sont utilisés pour stocker les constantes intérmédiaires nécessaire pour les calculs. En pratique, on utilise pour l'instant uniquement 
+ les registres rj, rk et rl. rl va être utilisé pour charger les constantes nécessaires pour comparer des trucs
+ Il faut savoir dans registres de la RAM sont stockés les valeurs initiales. Est-ce que c'est une bonne idée d'attribuer a un certain registre le rôle de
+ stack pointer? Pour l'instant, on va dire que rp a le rôle de stack pointer
+ Le registre ri va être destiné à stocker toutes les constantes dont on aura besoin pour le comparaison avec le jump
+ L'adresse 0 de la RAM va servir pour savoir si une seconde est passée ou pas
+ Pour les valeurs initiales, l'adresse 1 va stocker les secondes, l'adresse 2 les minutes, l'adresse 3 les heures, l'adresse 4 les jours, l'adresse 5 les mois, l'adresse
+ 6 les années
+*)
+
+label CHARGEMENT_VALEURS (* Chargement de toutes les valeurs nécessaires pour commencer *)
+movc rj 0
+getram ra rj 1
+getram rb rj 2
+getram rc rj 3
+getram rd rj 4
+getram re rj 5
+getram rf rj 6
+
+label DEBUT (* Le programme commence ici *)
+
+label INIT_MOD_4 (* Initialisation du compteur modulo 4 *)
+movr rg rf
+movc rl 4
+compc rg rl INIT_MOD_100
+movc rj 4
+sub rg rj
+jump ra ra INIT_MOD_4
+
+label INIT_MOD_100 (* Initialisation du compteur modulo 100 *)
+movr rh rf
+movc rl 4
+compc rg rl INIT_MOD_400
+movc rj 100
+sub rh rj
+jump ra ra INIT_MOD_100
+
+label INIT_MOD_400 (* Initialisation du compteur modulo 400 *)
+movr ri rf
+movc rl 4
+compc rg rl DEBUT
+movc rj 400
+sub ri rj
+jump ra ra INIT_MOD_400
+
+label TEST_AJOUT_SECONDE (* Test pour savoir s'il faut ajouter une seconde ou non *)
+movc rj 0
+getram rk rj 0
+jump rj rk TEST_AJOUT_SECONDE
+
+(* Début du programme, gestion des secondes *)
+addc ra 1
+movc rj 60
+jump ra rj MINUTES 
+jump ra ra DEBUT (* Pour que ça boucle *)
+
+
+label MINUTES (* Gestion des minutes *)
+movc ra 0
+addc rb 1
+movc rj 60
+jump rb rj HEURES
+jump ra ra DEBUT
+
+label HEURES(* Gestion des heures *)
+movc rb 0
+addc rc 1
+movc rj 24
+jump rc rj JOURS
+jump ra ra DEBUT
+
+
+label JOURS (* Gestion des jours, un peu compliqué parce qu'il faut gérer les années bissextiles et tous les mois différents *)
+movc rc 0
+addc rd 1
+movc rj 1
+jump re rj MOIS_31
+movc rj 2
+jump re rj MOIS_FEVRIER
+movc rj 3
+jump re rj MOIS_31
+movc rj 4
+jump re rj MOIS_30
+movc rj 5
+jump re rj MOIS_31
+movc rj 6
+jump re rj MOIS_30
+movc rj 7
+jump re rj MOIS_31
+movc rj 8
+jump re rj MOIS_31
+movc rj 9
+jump re rj MOIS_30
+movc rj 10
+jump re rj MOIS_31
+movc rj 11
+jump re rj MOIS_30
+movc rj 12
+jump re rj MOIS_31
+
+label MOIS_31 (* Gestion des mois de 31 jours, c'est à dire qu'on charge la bonne constante dans le registre rj *)
+movc rj 31
+jump ra ra JOURS
+
+label MOIS_30 (* Gestion des mois de 30 jours *)
+movc rj 30
+jump ra ra JOURS
+
+label MOIS_FEVRIER (* Gestion du mois de février, un peu plus compliqué car c'est ici qu'on va gérer les années bissextiles *)
+movc rk 0
+jump rk ri CHARGEMENT_29
+jump rk rh CHARGEMENT_28
+jump rk rg CHARGEMENT_29
+
+label CHARGEMENT_29 (* Chargement de 29 dans rj constante pour le mois de février *)
+movc rj 29
+jump ra ra JOURS
+
+label CHARGEMENT_28 (* Chargement de 28 dans la constante rj pour le mois de février *)
+movc rj 28
+jump ra ra JOURS
+
+label JOURS (* Augmentation des jours *)
+addc rd 1
+addc rj 1
+jump rd rj MOIS
+jump ra ra DEBUT
+
+label MOIS (* Augmentation des mois *)
+movc rd 1
+addc re 1
+movc rj 13
+jump re rj ANNEES
+jump ra ra DEBUT
+
+label ANNEES (* Gestion des années *)
+movc re 1
+addc rf 1
+addc rg 1
+addc rh 1
+addc ri 1
+movc rj 400
+jump ri rj REMISE_A_ZERO_DE_TOUS_LES_COMPTEURS
+movc rj 100
+jump rh rj REMISE_A_ZERO_DES_COMPTEURS_MOD100_ET_MOD4
+movc rj 4
+jump rg rj REMISE_A_ZERO_DU_COMPTEUR_MOD4
+
+label REMISE_A_ZERO_DE_TOUS_LES_COMPTEURS (*Remise à zéro des trois compteurs*)
+movc ri 0
+movc rh 0
+movc rg 0
+jump ra ra DEBUT
+
+label REMISE_A_ZERO_DES_COMPTEURS_MOD100_ET_MOD4 (* Remise à zéro des deux compteurs *)
+movc rh 0
+movc rg 0
+jump ra ra DEBUT
+
+label REMISE_A_ZERO_DU_COMPTEUR_MOD4 (* Remise à zéro du compteur mod 4 *)
+movc rg 0
+jump ra ra DEBUT
