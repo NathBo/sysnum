@@ -18,6 +18,8 @@ type instruction =
 	| Setram of reg * reg * const
 	| Label of labelname
 	| Goreg of reg
+	| Call of labelname
+	| Return
 
 type file = File of instruction list
 

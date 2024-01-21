@@ -118,7 +118,7 @@ def execute(r1,r2,sub,c,use2reg,do_operation,ram,we,compc,goreg):
     pre_result_regop = Mux(do_operation,bon_val2,pre_result)
     pre_result_ram = RAM(16,16,pre_result,Not(we),bon_val2,val1)
     result = Mux(ram,pre_result_regop,pre_result_ram)
-    need_to_jump = Or(Mux(compc,is0(result),Not(over)),goreg)
+    need_to_jump = Or(Mux(compc,is0(result),over),goreg)
     return result,need_to_jump,Mux(goreg,c,val1)
 
 def loop():

@@ -14,7 +14,7 @@ let hashtblfind h s =
 let size_reg = 4
 let size_const = 16
 
-let input = "code_assembly.txt"
+let input = "code_assembly_with_labels.txt"
 let output = "code_cpu.txt"
 
 let convert_assembly = 
@@ -29,33 +29,40 @@ let convert_assembly =
   (
     fun call -> match  call with
     | Label(Labelname(s)) -> Hashtbl.add labels s !cpt
+    | Call _ -> cpt := !cpt + 2
     | _ -> incr cpt
   )
   calls;
+  cpt := 0;
   List.iter
     (
       fun call -> match call with
-        | Stop -> Printf.fprintf channel "00000000000000000000000000000000\n"
-        | Add (Reg (r1), Reg(r2)) -> Printf.fprintf  channel "01101000%s%s0000000000000000\n" r1 r2
-        | Addc(Reg(r1),Const(c)) -> Printf.fprintf channel "00101000%s0000%s\n" r1 c
-        | Sub (Reg (r1), Reg (r2)) -> Printf.fprintf channel "11101000%s%s0000000000000000\n" r1 r2
-        | Subc(Reg(r1),Const(c)) -> Printf.fprintf channel "10101000%s0000%s\n" r1 c
-        | Movr (Reg (r1), Reg(r2)) -> Printf.fprintf channel "01001000%s%s0000000000000000\n" r1 r2
+        | Stop -> Printf.fprintf channel "00000000000000000000000000000000\n";incr cpt
+        | Add (Reg (r1), Reg(r2)) -> Printf.fprintf  channel "01101000%s%s0000000000000000\n" r1 r2;incr cpt
+        | Addc(Reg(r1),Const(c)) -> Printf.fprintf channel "00101000%s0000%s\n" r1 c;incr cpt
+        | Sub (Reg (r1), Reg (r2)) -> Printf.fprintf channel "11101000%s%s0000000000000000\n" r1 r2;incr cpt
+        | Subc(Reg(r1),Const(c)) -> Printf.fprintf channel "10101000%s0000%s\n" r1 c;incr cpt
+        | Movr (Reg (r1), Reg(r2)) -> Printf.fprintf channel "01001000%s%s0000000000000000\n" r1 r2;incr cpt;incr cpt
         | Movc (Reg (r1), Const (c)) -> 
           if (String.length c) <> size_const then raise (Wrong_constant_size)
-          else  Printf.fprintf channel "00001000%s0000%s\n" r1 c
+          else  Printf.fprintf channel "00001000%s0000%s\n" r1 c;incr cpt
         | Jump (Reg (r1), Reg (r2), Labelname(s)) -> 
-          Printf.fprintf channel "11100100%s%s%s\n" r1 r2 (convert_to_base_2 (Hashtbl.find labels s))
+          Printf.fprintf channel "11100100%s%s%s\n" r1 r2 (convert_to_base_2 (Hashtbl.find labels s));incr cpt
         | Compc (Reg (r1), Reg (r2), Labelname(s)) -> 
-            Printf.fprintf channel "11100110%s%s%s\n" r1 r2 (convert_to_base_2 (Hashtbl.find labels s))
+            Printf.fprintf channel "11100110%s%s%s\n" r1 r2 (convert_to_base_2 (Hashtbl.find labels s));incr cpt
+        | Call(Labelname(s)) ->
+          incr cpt;
+          Printf.fprintf channel "0000100011110000%s\n" (convert_to_base_2 !cpt);
+          Printf.fprintf channel "1110010000000000%s\n" (convert_to_base_2 (Hashtbl.find labels s));incr cpt
+        | Return -> Printf.fprintf channel "00000101111100000000000000000000\n";incr cpt
         | Getram (Reg (r1), Reg (r2), Const (c)) -> 
           if (String.length c) <> size_const then raise (Wrong_constant_size)
-          else Printf.fprintf channel "01111000%s%s%s\n" r1 r2 c
+          else Printf.fprintf channel "01111000%s%s%s\n" r1 r2 c;incr cpt
         | Setram (Reg (r1), Reg (r2), Const (c)) ->
           if (String.length c) <> size_const then raise (Wrong_constant_size)
-          else Printf.fprintf channel "01110000%s%s%s0000\n" r1 r2 c
+          else Printf.fprintf channel "01110000%s%s%s0000\n" r1 r2 c;incr cpt
         | Goreg(Reg(r1)) ->
-          Printf.fprintf channel "00000101%s00000000000000000000\n" r1
+          Printf.fprintf channel "00000101%s00000000000000000000\n" r1;incr cpt
         | Label(_) -> ()
     )
     calls;

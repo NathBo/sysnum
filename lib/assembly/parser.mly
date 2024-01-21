@@ -2,7 +2,7 @@
     open Ast
 %}
 
-%token STOP ADD ADDC SUB SUBC MOVR MOVC JUMP GETRAM SETRAM LABEL COMPC GOREG
+%token STOP ADD ADDC SUB SUBC MOVR MOVC JUMP GETRAM SETRAM LABEL COMPC GOREG CALL RETURN
 %token <string> REG LABELNAME
 %token <string> CONST
 %token NEWLINE
@@ -44,6 +44,12 @@ instruction:
 
     | COMPC r1 = reg r2 = reg l = labelname
         { Compc (r1, r2, l) }
+
+    | CALL l = labelname
+        { Call(l) }
+
+    | RETURN
+        { Return }
     
     | GETRAM r1 = reg r2 = reg c = constant
         { Getram (r1, r2, c) }
