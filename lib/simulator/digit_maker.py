@@ -17,6 +17,20 @@ template = [
     [0, 0, 1, 1, 1, 1, 1, 1]
 ]
 
+template0 = [
+    [ 0, 1, 1, 1, 1, 0],
+    [ 1, 0, 0, 0, 0, 1],
+    [ 1, 0, 0, 0, 0, 1],
+    [ 1, 0, 0, 0, 0, 1],
+    [ 1, 0, 0, 0, 0, 1],
+    [ 0, 0, 0, 0, 0, 0],
+    [ 1, 0, 0, 0, 0, 1],
+    [ 1, 0, 0, 0, 0, 1],
+    [ 1, 0, 0, 0, 0, 1],
+    [ 1, 0, 0, 0, 0, 1],
+    [ 0, 1, 1, 1, 1, 0]
+]
+
 template1 = [
     [ 0, 0, 0, 0, 0, 1],
     [ 0, 0, 0, 0, 0, 1],
@@ -29,20 +43,6 @@ template1 = [
     [ 0, 0, 0, 0, 0, 1],
     [ 0, 0, 0, 0, 0, 1],
     [ 0, 0, 0, 0, 0, 1]
-]
-
-template0 = [
-    [ 0, 0, 0, 0, 0, 0],
-    [ 0, 0, 0, 0, 0, 0],
-    [ 0, 0, 0, 0, 0, 0],
-    [ 0, 0, 0, 0, 0, 0],
-    [ 0, 0, 0, 0, 0, 0],
-    [ 0, 0, 0, 0, 0, 0],
-    [ 0, 0, 0, 0, 0, 0],
-    [ 0, 0, 0, 0, 0, 0],
-    [ 0, 0, 0, 0, 0, 0],
-    [ 0, 0, 0, 0, 0, 0],
-    [ 0, 0, 0, 0, 0, 0]
 ]
 
 template2 = [
@@ -157,9 +157,10 @@ template9 = [
     [ 0, 0, 0, 0, 0, 1],
     [ 0, 1, 1, 1, 1, 0]
 ]
-lst1 = [i*Nlin+j for i in range(nlin) for j in range(ncol) if template1[i][j]]
+
 lst0 = [i*Nlin+j for i in range(nlin) for j in range(ncol) if template0[i][j]]
-lst2 = [i*Nlin+j for i in range(nlin) for j in range(ncol) if template[i][j]]
+lst1 = [i*Nlin+j for i in range(nlin) for j in range(ncol) if template1[i][j]]
+lst2 = [i*Nlin+j for i in range(nlin) for j in range(ncol) if template2[i][j]]
 lst3 = [i*Nlin+j for i in range(nlin) for j in range(ncol) if template3[i][j]]
 lst4 = [i*Nlin+j for i in range(nlin) for j in range(ncol) if template4[i][j]]
 lst5 = [i*Nlin+j for i in range(nlin) for j in range(ncol) if template5[i][j]]
@@ -169,9 +170,10 @@ lst8 = [i*Nlin+j for i in range(nlin) for j in range(ncol) if template8[i][j]]
 lst9 = [i*Nlin+j for i in range(nlin) for j in range(ncol) if template9[i][j]]
 w = '[' + '; '.join(map(str, lst8)) + ']'
 
-with open("graphics_helper.ml", "w+") as file:
-    file.write(
-f"""
+lst = [lst0, lst1, lst2, lst3, lst4, lst5, lst6, lst7, lst8, lst9]
+print('\n\n'.join(map(str, lst)))
+
+"""
 open Graphics
 open Netlist_ast
         
@@ -228,4 +230,4 @@ let tests () =
   
 
 let _=tests ()
-""")
+"""
