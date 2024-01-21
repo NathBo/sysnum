@@ -1,4 +1,7 @@
-movc ra 15
-movc rb 23
-addc ra 1
-add rb ra
+movc ra 16
+movc rb 0
+
+label START
+
+addc rb 1
+compc ra rb START

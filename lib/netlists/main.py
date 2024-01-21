@@ -127,7 +127,7 @@ def loop():
     isjump = Select(5,instruction)
     ligneplusun,_ = n_adder(ligne,Constant("1000000000000000"))
     c = Slice(16,32,instruction)
-    res,a = execute(Slice(8,12,instruction),Slice(12,16,instruction),Select(0,instruction),c,Select(1,instruction),Select(2,instruction),Select(3,instruction),Select(4,instruction),Select(5,instruction))
+    res,a = execute(Slice(8,12,instruction),Slice(12,16,instruction),Select(0,instruction),c,Select(1,instruction),Select(2,instruction),Select(3,instruction),Select(4,instruction),Select(6,instruction))
     eventuelligne = Mux(isjump,ligneplusun,c)
     nouvligne = Mux(a,ligneplusun,eventuelligne)
     return res,ligne,instruction,Slice(8,12,instruction)

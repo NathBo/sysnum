@@ -7,7 +7,7 @@ exception Wrong_constant_size
 let size_reg = 4
 let size_const = 16
 
-let input = "clock-version-sans-les-mois.txt"
+let input = "code_assembly.txt"
 let output = "code_cpu.txt"
 
 let convert_assembly = 
@@ -40,7 +40,7 @@ let convert_assembly =
         | Jump (Reg (r1), Reg (r2), Labelname(s)) -> 
           Printf.fprintf channel "11100100%s%s%s\n" r1 r2 (convert_to_base_2 (Hashtbl.find labels s))
         | Compc (Reg (r1), Reg (r2), Labelname(s)) -> 
-            Printf.fprintf channel "11100100%s%s%s\n" r1 r2 (convert_to_base_2 (Hashtbl.find labels s))
+            Printf.fprintf channel "11100110%s%s%s\n" r1 r2 (convert_to_base_2 (Hashtbl.find labels s))
         | Getram (Reg (r1), Reg (r2), Const (c)) -> 
           if (String.length c) <> size_const then raise (Wrong_constant_size)
           else Printf.fprintf channel "01111000%s%s%s\n" r1 r2 c
