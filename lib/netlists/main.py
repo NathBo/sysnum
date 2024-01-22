@@ -95,7 +95,7 @@ def is0(a):
     return Not(rep)
 
 
-def execute(r1,r2,sub,c,use2reg,do_operation,ram,we,compc,goreg):
+def execute(r1,r2,sub,c,use2reg,do_operation,ram,we,compc,goreg,isjump):
     #use2reg = 1 si on utilise r1 et r2, = 0 si on utilise r1 et c
     #do_operation = 1 si on fait un add/sub, = 0 si on fait un mov
 
@@ -112,7 +112,7 @@ def execute(r1,r2,sub,c,use2reg,do_operation,ram,we,compc,goreg):
     #faciles à faire mais pas dans le tableau de base
     #r1 <- r1 + c -> sub = 0, use2reg = 0, do_operation = 1, ram = 0, we = 1
     #r1 <- r1 - c -> sub = 1, use2reg = 0, do_operation = 1, ram = 0, we = 1
-    val1,val2 = mulreg(we,r1,Defer(16, lambda : result),r1,r2)
+    val1,val2 = mulreg(And(we,Not(isjump)),r1,Defer(16, lambda : result),r1,r2)
     bon_val2 = Mux(use2reg,c,val2)
     bon_val1 = Mux(ram,val1,c)
     pre_result,_ = alu(sub,bon_val1,bon_val2)
@@ -129,7 +129,7 @@ def loop():
     isjump = Select(5,instruction)
     ligneplusun,_ = n_adder(ligne,Constant("1000000000000000"))
     c = Slice(16,32,instruction)
-    res,a,ligneago = execute(Slice(8,12,instruction),Slice(12,16,instruction),Select(0,instruction),c,Select(1,instruction),Select(2,instruction),Select(3,instruction),Select(4,instruction),Select(6,instruction),Select(7,instruction))
+    res,a,ligneago = execute(Slice(8,12,instruction),Slice(12,16,instruction),Select(0,instruction),c,Select(1,instruction),Select(2,instruction),Select(3,instruction),Select(4,instruction),Select(6,instruction),Select(7,instruction),isjump)
     eventuelligne = Mux(isjump,ligneplusun,ligneago)
     nouvligne = Mux(a,ligneplusun,eventuelligne)
     return res,ligne
