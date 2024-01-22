@@ -3,3 +3,10 @@ lib/assembly/assembly
 lib/assembly/assembly.exe
 descriptif.log
 descriptif.aux
+beamer/beamer.aux
+beamer/beamer.log
+beamer/beamer.nav
+beamer/beamer.out
+beamer/beamer.snm
+beamer/beamer.toc
+beamer/beamer.pdf
