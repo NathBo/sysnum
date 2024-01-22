@@ -131,13 +131,11 @@ def loop():
     res,a,ligneago = execute(Slice(8,12,instruction),Slice(12,16,instruction),Select(0,instruction),c,Select(1,instruction),Select(2,instruction),Select(3,instruction),Select(4,instruction),Select(6,instruction),Select(7,instruction))
     eventuelligne = Mux(isjump,ligneplusun,ligneago)
     nouvligne = Mux(a,ligneplusun,eventuelligne)
-    return res,ligne,instruction,Slice(8,12,instruction)
+    return res,ligne
 
 
 
 def main():
-    re,l,i,s = loop()
+    re,l = loop()
     re.set_as_output("re")
     l.set_as_output("l")
-    i.set_as_output("i")
-    s.set_as_output("sa")

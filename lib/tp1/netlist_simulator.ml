@@ -200,7 +200,7 @@ let simulator program number_steps =
   Env.iter ajout_a_env program.p_vars;
   let i = ref 1 in
   while !i<>number_steps+1 do
-    print_string "Step ";
+    print_string "\nStep ";
     print_int !i;
     print_string ":\n";
 
