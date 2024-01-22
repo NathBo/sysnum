@@ -10,5 +10,3 @@ beamer/beamer.out
 beamer/beamer.snm
 beamer/beamer.toc
 beamer/beamer.pdf
-lib/assembly/code_cpu.txt
-lib/tp1/netlist_simulator.byte

@@ -6,53 +6,21 @@
  les registres rj, rk et rl. rl va être utilisé pour charger les constantes nécessaires pour comparer des trucs
  Il faut savoir dans registres de la RAM sont stockés les valeurs initiales. Est-ce que c'est une bonne idée d'attribuer a un certain registre le rôle de
  stack pointer? Pour l'instant, on va dire que rp a le rôle de stack pointer
- Le registre ri va être destiné à stocker toqutes les constantes dont on aura besoin pour le comparaison avec le jump
+ Le registre ri va être destiné à stocker toutes les constantes dont on aura besoin pour le comparaison avec le jump
  L'adresse 0 de la RAM va servir pour savoir si une seconde est passée ou pas
  Pour les valeurs initiales, l'adresse 1 va stocker les secondes, l'adresse 2 les minutes, l'adresse 3 les heures, l'adresse 4 les jours, l'adresse 5 les mois, l'adresse
  6 les années
- Le nombre d'années va être stocké sous la forme (chiffre des unités, chiffre des dizaines, chiffre des centaines, chiffre des milliers) dans les adresses ram 13, 14, 15, 16.
- On a fait ce choix afin de faciliter l'affichage, qui ne nécessiter que 40 tests contre 10000 si on appliquer la même méthode que pour les secondes, minutes, heures et jours
+ Pour l'affichage, on doit aussi conserver la valeur des  
 *)
 
 label CHARGEMENT_VALEURS (* Chargement de toutes les valeurs nécessaires pour commencer *)
-setram rl rj 7
+movc rj 0
 getram ra rj 1
 getram rb rj 2
 getram rc rj 3
 getram rd rj 4
 getram re rj 5
 getram rf rj 6
-
-label INIT_MOD_4 (* Initialisation du compteur modulo 4 *)
-movr rg rf
-
-label BOUCLE_MOD_4 (* Boucle pour faire descendre le compteur modulo 4 *)
-movc rj 0
-movc rl 4
-compc rg rl INIT_MOD_100
-movc rj 4
-sub rg rj
-jump ra ra BOUCLE_MOD_4
-
-label INIT_MOD_100 (* Initialisation du compteur modulo 100 *)
-movr rh rf
-
-label BOUCLE_MOD_100 (* Boucle pour faire descendre le compteur modulo 100 *)
-movc rl 100
-compc rg rl INIT_MOD_400
-movc rj 100
-sub rh rj
-jump ra ra BOUCLE_MOD_100
-
-label INIT_MOD_400 (* Initialisation du compteur modulo 400 *)
-movr ri rf
-
-label BOUCLE_MOD_400 (* Boucle pour faire descendre le compteur modulo 400 *)
-movc rl 400
-compc rg rl DEBUT
-movc rj 400
-sub ri rj
-jump ra ra BOUCLE_MOD_400
 
 label DEBUT (* Le programme commence ici *)
 movc rj 0
@@ -63,11 +31,37 @@ setram rd rj 10
 setram re rj 11
 setram rf rj 12
 
+label INIT_MOD_4 (* Initialisation du compteur modulo 4 *)
+movr rg rf
+movc rl 4
+compc rg rl INIT_MOD_100
+movc rj 4
+sub rg rj
+jump ra ra INIT_MOD_4
+
+label INIT_MOD_100 (* Initialisation du compteur modulo 100 *)
+movr rh rf
+movc rl 4
+compc rg rl INIT_MOD_400
+movc rj 100
+sub rh rj
+jump ra ra INIT_MOD_100
+
+label INIT_MOD_400 (* Initialisation du compteur modulo 400 *)
+movr ri rf
+movc rl 4
+compc rg rl DEBUT
+movc rj 400
+sub ri rj
+jump ra ra INIT_MOD_400
+
+label INIT_MOD_10_SECONDES (* Initialisation du compteur modulo 10 dans secondes *)
+
 label TEST_AJOUT_SECONDE (* Test pour savoir s'il faut ajouter une seconde ou non *)
 movc rj 0
 getram rk rj 0
-// jump rj rk TEST_AJOUT_SECONDE
-// setram rj rj 0
+jump rj rk TEST_AJOUT_SECONDE
+
 (* Début du programme, gestion des secondes *)
 addc ra 1
 movc rj 60

@@ -47,7 +47,7 @@ instruction:
         { Call(l) }
     
     | CALLC r1 = reg r2 = reg l =labelname
-        { Callc (l, r1, r2) }
+        { Callc (r1, r2, l) }
 
     | RETURN
         { Return }

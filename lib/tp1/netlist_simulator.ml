@@ -1,4 +1,4 @@
-open Graphics
+(*open Graphics*)
 open Netlist_ast
 
 

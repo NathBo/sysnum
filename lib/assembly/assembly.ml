@@ -57,6 +57,10 @@ let convert_assembly =
           incr cpt;
           Printf.fprintf channel "0000100011110000%s\n" (convert_to_base_2 !cpt);
           Printf.fprintf channel "1110010000000000%s\n" (convert_to_base_2 (Hashtbl.find labels s));incr cpt
+        | Callc(Reg (r1), Reg (r2), Labelname(s)) ->
+          incr cpt;
+          Printf.fprintf channel "0000100011110000%s\n" (convert_to_base_2 !cpt);
+          Printf.fprintf channel "11100100%s%s%s\n" r1 r2 (convert_to_base_2 (Hashtbl.find labels s));incr cpt
         | Return -> Printf.fprintf channel "00000101111100000000000000000000\n";incr cpt
         | Getram (Reg (r1), Reg (r2), Const (c)) -> 
           if (String.length c) <> size_const then raise (Wrong_constant_size)
