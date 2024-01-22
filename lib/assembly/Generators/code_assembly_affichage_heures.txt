@@ -1,0 +1,74 @@
+label AFFICHAGE_HEURES
+movr rj rc
+movr rk 0
+call display_0
+call display_0
+movr rk 1
+call display_0
+call display_1
+movr rk 2
+call display_0
+call display_2
+movr rk 3
+call display_0
+call display_3
+movr rk 4
+call display_0
+call display_4
+movr rk 5
+call display_0
+call display_5
+movr rk 6
+call display_0
+call display_6
+movr rk 7
+call display_0
+call display_7
+movr rk 8
+call display_0
+call display_8
+movr rk 9
+call display_0
+call display_9
+movr rk 10
+call display_1
+call display_0
+movr rk 11
+call display_1
+call display_1
+movr rk 12
+call display_1
+call display_2
+movr rk 13
+call display_1
+call display_3
+movr rk 14
+call display_1
+call display_4
+movr rk 15
+call display_1
+call display_5
+movr rk 16
+call display_1
+call display_6
+movr rk 17
+call display_1
+call display_7
+movr rk 18
+call display_1
+call display_8
+movr rk 19
+call display_1
+call display_9
+movr rk 20
+call display_2
+call display_0
+movr rk 21
+call display_2
+call display_1
+movr rk 22
+call display_2
+call display_2
+movr rk 23
+call display_2
+call display_3
