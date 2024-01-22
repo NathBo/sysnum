@@ -212,6 +212,7 @@ let simulator program number_steps =
   print_int sec;
   Hashtbl.add memory "pre_result_ram" ram;
   let i = ref 1 in
+  let t = ref (time()) in
   while !i<>number_steps+1 do
     print_string "\nStep ";
     print_int !i;
@@ -226,6 +227,8 @@ let simulator program number_steps =
 
     incr i;
     let ram = Hashtbl.find memory "pre_result_ram" in
+    if time() > !t +. 1. then
+      (ram.(0) <- to_16b(1); t := !t +. 1.);
     print_string "secondes : ";
     print_int (bitarray_to_int ram.(7));
     print_string "\nminutes : ";
