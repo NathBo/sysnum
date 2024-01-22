@@ -33,7 +33,6 @@ let convert_assembly =
     fun call -> match  call with
     | Label(Labelname(s)) -> Hashtbl.add labels s !cpt
     | Call _ -> cpt := !cpt + 2
-    | Callc _ -> cpt := !cpt + 2
     | _ -> incr cpt
   )
   calls;
@@ -50,9 +49,9 @@ let convert_assembly =
           if (String.length c) <> size_const then raise (Wrong_constant_size)
           else  Printf.fprintf channel "00001000%s0000%s\n" r1 c;incr cpt
         | Jump (Reg (r1), Reg (r2), Labelname(s)) -> 
-          Printf.fprintf channel "11100100%s%s%s\n" r1 r2 (convert_to_base_2 (Hashtbl.find labels s));incr cpt
+          Printf.fprintf channel "11101100%s%s%s\n" r1 r2 (convert_to_base_2 (Hashtbl.find labels s));incr cpt
         | Compc (Reg (r1), Reg (r2), Labelname(s)) -> 
-            Printf.fprintf channel "11100110%s%s%s\n" r1 r2 (convert_to_base_2 (Hashtbl.find labels s));incr cpt
+            Printf.fprintf channel "11101110%s%s%s\n" r1 r2 (convert_to_base_2 (Hashtbl.find labels s));incr cpt
         | Call(Labelname(s)) ->
           incr cpt;
           Printf.fprintf channel "0000100011110000%s\n" (convert_to_base_2 !cpt);
