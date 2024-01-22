@@ -127,7 +127,7 @@ let execute exp id = match exp with
   | Erom (adrrs,wrds,addr) -> if Hashtbl.mem memory id
     then (Hashtbl.find memory id).(bitarray_to_int (compute_arg addr))
     else begin
-      let ic = open_in ("data/code_cpu.txt") in
+      let ic = open_in ("../assembly/code_cpu.txt") in
       let rep = (Array.make (puissance 2 adrrs) (VBitArray(Array.make wrds false))) in
       for i=0 to puissance 2 adrrs -1 do
         let line = try input_line ic with End_of_file -> "00000000000000000000000000000000" in
