@@ -1,0 +1,883 @@
+label AFFICHAGE_SECONDE
+movr rk 0
+movc ro 6
+callc ra rk display_0
+movc ro 7
+callc ra rk display_0
+movr rk 1
+movc ro 6
+callc ra rk display_0
+movc ro 7
+callc ra rk display_1
+movr rk 2
+movc ro 6
+callc ra rk display_0
+movc ro 7
+callc ra rk display_2
+movr rk 3
+movc ro 6
+callc ra rk display_0
+movc ro 7
+callc ra rk display_3
+movr rk 4
+movc ro 6
+callc ra rk display_0
+movc ro 7
+callc ra rk display_4
+movr rk 5
+movc ro 6
+callc ra rk display_0
+movc ro 7
+callc ra rk display_5
+movr rk 6
+movc ro 6
+callc ra rk display_0
+movc ro 7
+callc ra rk display_6
+movr rk 7
+movc ro 6
+callc ra rk display_0
+movc ro 7
+callc ra rk display_7
+movr rk 8
+movc ro 6
+callc ra rk display_0
+movc ro 7
+callc ra rk display_8
+movr rk 9
+movc ro 6
+callc ra rk display_0
+movc ro 7
+callc ra rk display_9
+movr rk 10
+movc ro 6
+callc ra rk display_1
+movc ro 7
+callc ra rk display_0
+movr rk 11
+movc ro 6
+callc ra rk display_1
+movc ro 7
+callc ra rk display_1
+movr rk 12
+movc ro 6
+callc ra rk display_1
+movc ro 7
+callc ra rk display_2
+movr rk 13
+movc ro 6
+callc ra rk display_1
+movc ro 7
+callc ra rk display_3
+movr rk 14
+movc ro 6
+callc ra rk display_1
+movc ro 7
+callc ra rk display_4
+movr rk 15
+movc ro 6
+callc ra rk display_1
+movc ro 7
+callc ra rk display_5
+movr rk 16
+movc ro 6
+callc ra rk display_1
+movc ro 7
+callc ra rk display_6
+movr rk 17
+movc ro 6
+callc ra rk display_1
+movc ro 7
+callc ra rk display_7
+movr rk 18
+movc ro 6
+callc ra rk display_1
+movc ro 7
+callc ra rk display_8
+movr rk 19
+movc ro 6
+callc ra rk display_1
+movc ro 7
+callc ra rk display_9
+movr rk 20
+movc ro 6
+callc ra rk display_2
+movc ro 7
+callc ra rk display_0
+movr rk 21
+movc ro 6
+callc ra rk display_2
+movc ro 7
+callc ra rk display_1
+movr rk 22
+movc ro 6
+callc ra rk display_2
+movc ro 7
+callc ra rk display_2
+movr rk 23
+movc ro 6
+callc ra rk display_2
+movc ro 7
+callc ra rk display_3
+movr rk 24
+movc ro 6
+callc ra rk display_2
+movc ro 7
+callc ra rk display_4
+movr rk 25
+movc ro 6
+callc ra rk display_2
+movc ro 7
+callc ra rk display_5
+movr rk 26
+movc ro 6
+callc ra rk display_2
+movc ro 7
+callc ra rk display_6
+movr rk 27
+movc ro 6
+callc ra rk display_2
+movc ro 7
+callc ra rk display_7
+movr rk 28
+movc ro 6
+callc ra rk display_2
+movc ro 7
+callc ra rk display_8
+movr rk 29
+movc ro 6
+callc ra rk display_2
+movc ro 7
+callc ra rk display_9
+movr rk 30
+movc ro 6
+callc ra rk display_3
+movc ro 7
+callc ra rk display_0
+movr rk 31
+movc ro 6
+callc ra rk display_3
+movc ro 7
+callc ra rk display_1
+movr rk 32
+movc ro 6
+callc ra rk display_3
+movc ro 7
+callc ra rk display_2
+movr rk 33
+movc ro 6
+callc ra rk display_3
+movc ro 7
+callc ra rk display_3
+movr rk 34
+movc ro 6
+callc ra rk display_3
+movc ro 7
+callc ra rk display_4
+movr rk 35
+movc ro 6
+callc ra rk display_3
+movc ro 7
+callc ra rk display_5
+movr rk 36
+movc ro 6
+callc ra rk display_3
+movc ro 7
+callc ra rk display_6
+movr rk 37
+movc ro 6
+callc ra rk display_3
+movc ro 7
+callc ra rk display_7
+movr rk 38
+movc ro 6
+callc ra rk display_3
+movc ro 7
+callc ra rk display_8
+movr rk 39
+movc ro 6
+callc ra rk display_3
+movc ro 7
+callc ra rk display_9
+movr rk 40
+movc ro 6
+callc ra rk display_4
+movc ro 7
+callc ra rk display_0
+movr rk 41
+movc ro 6
+callc ra rk display_4
+movc ro 7
+callc ra rk display_1
+movr rk 42
+movc ro 6
+callc ra rk display_4
+movc ro 7
+callc ra rk display_2
+movr rk 43
+movc ro 6
+callc ra rk display_4
+movc ro 7
+callc ra rk display_3
+movr rk 44
+movc ro 6
+callc ra rk display_4
+movc ro 7
+callc ra rk display_4
+movr rk 45
+movc ro 6
+callc ra rk display_4
+movc ro 7
+callc ra rk display_5
+movr rk 46
+movc ro 6
+callc ra rk display_4
+movc ro 7
+callc ra rk display_6
+movr rk 47
+movc ro 6
+callc ra rk display_4
+movc ro 7
+callc ra rk display_7
+movr rk 48
+movc ro 6
+callc ra rk display_4
+movc ro 7
+callc ra rk display_8
+movr rk 49
+movc ro 6
+callc ra rk display_4
+movc ro 7
+callc ra rk display_9
+movr rk 50
+movc ro 6
+callc ra rk display_5
+movc ro 7
+callc ra rk display_0
+movr rk 51
+movc ro 6
+callc ra rk display_5
+movc ro 7
+callc ra rk display_1
+movr rk 52
+movc ro 6
+callc ra rk display_5
+movc ro 7
+callc ra rk display_2
+movr rk 53
+movc ro 6
+callc ra rk display_5
+movc ro 7
+callc ra rk display_3
+movr rk 54
+movc ro 6
+callc ra rk display_5
+movc ro 7
+callc ra rk display_4
+movr rk 55
+movc ro 6
+callc ra rk display_5
+movc ro 7
+callc ra rk display_5
+movr rk 56
+movc ro 6
+callc ra rk display_5
+movc ro 7
+callc ra rk display_6
+movr rk 57
+movc ro 6
+callc ra rk display_5
+movc ro 7
+callc ra rk display_7
+movr rk 58
+movc ro 6
+callc ra rk display_5
+movc ro 7
+callc ra rk display_8
+movr rk 59
+movc ro 6
+callc ra rk display_5
+movc ro 7
+callc ra rk display_9
+
+label AFFICHAGE_MINUTES
+movr rk 0
+movc ro 4
+callc rb rk display_0
+movc ro 5
+callc rb rk display_0
+movr rk 1
+movc ro 4
+callc rb rk display_0
+movc ro 5
+callc rb rk display_1
+movr rk 2
+movc ro 4
+callc rb rk display_0
+movc ro 5
+callc rb rk display_2
+movr rk 3
+movc ro 4
+callc rb rk display_0
+movc ro 5
+callc rb rk display_3
+movr rk 4
+movc ro 4
+callc rb rk display_0
+movc ro 5
+callc rb rk display_4
+movr rk 5
+movc ro 4
+callc rb rk display_0
+movc ro 5
+callc rb rk display_5
+movr rk 6
+movc ro 4
+callc rb rk display_0
+movc ro 5
+callc rb rk display_6
+movr rk 7
+movc ro 4
+callc rb rk display_0
+movc ro 5
+callc rb rk display_7
+movr rk 8
+movc ro 4
+callc rb rk display_0
+movc ro 5
+callc rb rk display_8
+movr rk 9
+movc ro 4
+callc rb rk display_0
+movc ro 5
+callc rb rk display_9
+movr rk 10
+movc ro 4
+callc rb rk display_1
+movc ro 5
+callc rb rk display_0
+movr rk 11
+movc ro 4
+callc rb rk display_1
+movc ro 5
+callc rb rk display_1
+movr rk 12
+movc ro 4
+callc rb rk display_1
+movc ro 5
+callc rb rk display_2
+movr rk 13
+movc ro 4
+callc rb rk display_1
+movc ro 5
+callc rb rk display_3
+movr rk 14
+movc ro 4
+callc rb rk display_1
+movc ro 5
+callc rb rk display_4
+movr rk 15
+movc ro 4
+callc rb rk display_1
+movc ro 5
+callc rb rk display_5
+movr rk 16
+movc ro 4
+callc rb rk display_1
+movc ro 5
+callc rb rk display_6
+movr rk 17
+movc ro 4
+callc rb rk display_1
+movc ro 5
+callc rb rk display_7
+movr rk 18
+movc ro 4
+callc rb rk display_1
+movc ro 5
+callc rb rk display_8
+movr rk 19
+movc ro 4
+callc rb rk display_1
+movc ro 5
+callc rb rk display_9
+movr rk 20
+movc ro 4
+callc rb rk display_2
+movc ro 5
+callc rb rk display_0
+movr rk 21
+movc ro 4
+callc rb rk display_2
+movc ro 5
+callc rb rk display_1
+movr rk 22
+movc ro 4
+callc rb rk display_2
+movc ro 5
+callc rb rk display_2
+movr rk 23
+movc ro 4
+callc rb rk display_2
+movc ro 5
+callc rb rk display_3
+movr rk 24
+movc ro 4
+callc rb rk display_2
+movc ro 5
+callc rb rk display_4
+movr rk 25
+movc ro 4
+callc rb rk display_2
+movc ro 5
+callc rb rk display_5
+movr rk 26
+movc ro 4
+callc rb rk display_2
+movc ro 5
+callc rb rk display_6
+movr rk 27
+movc ro 4
+callc rb rk display_2
+movc ro 5
+callc rb rk display_7
+movr rk 28
+movc ro 4
+callc rb rk display_2
+movc ro 5
+callc rb rk display_8
+movr rk 29
+movc ro 4
+callc rb rk display_2
+movc ro 5
+callc rb rk display_9
+movr rk 30
+movc ro 4
+callc rb rk display_3
+movc ro 5
+callc rb rk display_0
+movr rk 31
+movc ro 4
+callc rb rk display_3
+movc ro 5
+callc rb rk display_1
+movr rk 32
+movc ro 4
+callc rb rk display_3
+movc ro 5
+callc rb rk display_2
+movr rk 33
+movc ro 4
+callc rb rk display_3
+movc ro 5
+callc rb rk display_3
+movr rk 34
+movc ro 4
+callc rb rk display_3
+movc ro 5
+callc rb rk display_4
+movr rk 35
+movc ro 4
+callc rb rk display_3
+movc ro 5
+callc rb rk display_5
+movr rk 36
+movc ro 4
+callc rb rk display_3
+movc ro 5
+callc rb rk display_6
+movr rk 37
+movc ro 4
+callc rb rk display_3
+movc ro 5
+callc rb rk display_7
+movr rk 38
+movc ro 4
+callc rb rk display_3
+movc ro 5
+callc rb rk display_8
+movr rk 39
+movc ro 4
+callc rb rk display_3
+movc ro 5
+callc rb rk display_9
+movr rk 40
+movc ro 4
+callc rb rk display_4
+movc ro 5
+callc rb rk display_0
+movr rk 41
+movc ro 4
+callc rb rk display_4
+movc ro 5
+callc rb rk display_1
+movr rk 42
+movc ro 4
+callc rb rk display_4
+movc ro 5
+callc rb rk display_2
+movr rk 43
+movc ro 4
+callc rb rk display_4
+movc ro 5
+callc rb rk display_3
+movr rk 44
+movc ro 4
+callc rb rk display_4
+movc ro 5
+callc rb rk display_4
+movr rk 45
+movc ro 4
+callc rb rk display_4
+movc ro 5
+callc rb rk display_5
+movr rk 46
+movc ro 4
+callc rb rk display_4
+movc ro 5
+callc rb rk display_6
+movr rk 47
+movc ro 4
+callc rb rk display_4
+movc ro 5
+callc rb rk display_7
+movr rk 48
+movc ro 4
+callc rb rk display_4
+movc ro 5
+callc rb rk display_8
+movr rk 49
+movc ro 4
+callc rb rk display_4
+movc ro 5
+callc rb rk display_9
+movr rk 50
+movc ro 4
+callc rb rk display_5
+movc ro 5
+callc rb rk display_0
+movr rk 51
+movc ro 4
+callc rb rk display_5
+movc ro 5
+callc rb rk display_1
+movr rk 52
+movc ro 4
+callc rb rk display_5
+movc ro 5
+callc rb rk display_2
+movr rk 53
+movc ro 4
+callc rb rk display_5
+movc ro 5
+callc rb rk display_3
+movr rk 54
+movc ro 4
+callc rb rk display_5
+movc ro 5
+callc rb rk display_4
+movr rk 55
+movc ro 4
+callc rb rk display_5
+movc ro 5
+callc rb rk display_5
+movr rk 56
+movc ro 4
+callc rb rk display_5
+movc ro 5
+callc rb rk display_6
+movr rk 57
+movc ro 4
+callc rb rk display_5
+movc ro 5
+callc rb rk display_7
+movr rk 58
+movc ro 4
+callc rb rk display_5
+movc ro 5
+callc rb rk display_8
+movr rk 59
+movc ro 4
+callc rb rk display_5
+movc ro 5
+callc rb rk display_9
+
+label AFFICHAGE_HEURES
+movr rk 0
+movc ro 1
+callc rc rk display_0
+movc ro 0
+callc rc rk display_0
+movr rk 1
+movc ro 1
+callc rc rk display_0
+movc ro 0
+callc rc rk display_1
+movr rk 2
+movc ro 1
+callc rc rk display_0
+movc ro 0
+callc rc rk display_2
+movr rk 3
+movc ro 1
+callc rc rk display_0
+movc ro 0
+callc rc rk display_3
+movr rk 4
+movc ro 1
+callc rc rk display_0
+movc ro 0
+callc rc rk display_4
+movr rk 5
+movc ro 1
+callc rc rk display_0
+movc ro 0
+callc rc rk display_5
+movr rk 6
+movc ro 1
+callc rc rk display_0
+movc ro 0
+callc rc rk display_6
+movr rk 7
+movc ro 1
+callc rc rk display_0
+movc ro 0
+callc rc rk display_7
+movr rk 8
+movc ro 1
+callc rc rk display_0
+movc ro 0
+callc rc rk display_8
+movr rk 9
+movc ro 1
+callc rc rk display_0
+movc ro 0
+callc rc rk display_9
+movr rk 10
+movc ro 1
+callc rc rk display_1
+movc ro 0
+callc rc rk display_0
+movr rk 11
+movc ro 1
+callc rc rk display_1
+movc ro 0
+callc rc rk display_1
+movr rk 12
+movc ro 1
+callc rc rk display_1
+movc ro 0
+callc rc rk display_2
+movr rk 13
+movc ro 1
+callc rc rk display_1
+movc ro 0
+callc rc rk display_3
+movr rk 14
+movc ro 1
+callc rc rk display_1
+movc ro 0
+callc rc rk display_4
+movr rk 15
+movc ro 1
+callc rc rk display_1
+movc ro 0
+callc rc rk display_5
+movr rk 16
+movc ro 1
+callc rc rk display_1
+movc ro 0
+callc rc rk display_6
+movr rk 17
+movc ro 1
+callc rc rk display_1
+movc ro 0
+callc rc rk display_7
+movr rk 18
+movc ro 1
+callc rc rk display_1
+movc ro 0
+callc rc rk display_8
+movr rk 19
+movc ro 1
+callc rc rk display_1
+movc ro 0
+callc rc rk display_9
+movr rk 20
+movc ro 1
+callc rc rk display_2
+movc ro 0
+callc rc rk display_0
+movr rk 21
+movc ro 1
+callc rc rk display_2
+movc ro 0
+callc rc rk display_1
+movr rk 22
+movc ro 1
+callc rc rk display_2
+movc ro 0
+callc rc rk display_2
+movr rk 23
+movc ro 1
+callc rc rk display_2
+movc ro 0
+callc rc rk display_3
+
+label AFFICHAGE_JOURS
+movr rj rd
+movr rk 1
+movc ro 251
+callc rd rk display_0
+movc ro 250
+callc rd rk display_1
+movr rk 2
+movc ro 251
+callc rd rk display_0
+movc ro 250
+callc rd rk display_2
+movr rk 3
+movc ro 251
+callc rd rk display_0
+movc ro 250
+callc rd rk display_3
+movr rk 4
+movc ro 251
+callc rd rk display_0
+movc ro 250
+callc rd rk display_4
+movr rk 5
+movc ro 251
+callc rd rk display_0
+movc ro 250
+callc rd rk display_5
+movr rk 6
+movc ro 251
+callc rd rk display_0
+movc ro 250
+callc rd rk display_6
+movr rk 7
+movc ro 251
+callc rd rk display_0
+movc ro 250
+callc rd rk display_7
+movr rk 8
+movc ro 251
+callc rd rk display_0
+movc ro 250
+callc rd rk display_8
+movr rk 9
+movc ro 251
+callc rd rk display_0
+movc ro 250
+callc rd rk display_9
+movr rk 10
+movc ro 251
+callc rd rk display_1
+movc ro 250
+callc rd rk display_0
+movr rk 11
+movc ro 251
+callc rd rk display_1
+movc ro 250
+callc rd rk display_1
+movr rk 12
+movc ro 251
+callc rd rk display_1
+movc ro 250
+callc rd rk display_2
+movr rk 13
+movc ro 251
+callc rd rk display_1
+movc ro 250
+callc rd rk display_3
+movr rk 14
+movc ro 251
+callc rd rk display_1
+movc ro 250
+callc rd rk display_4
+movr rk 15
+movc ro 251
+callc rd rk display_1
+movc ro 250
+callc rd rk display_5
+movr rk 16
+movc ro 251
+callc rd rk display_1
+movc ro 250
+callc rd rk display_6
+movr rk 17
+movc ro 251
+callc rd rk display_1
+movc ro 250
+callc rd rk display_7
+movr rk 18
+movc ro 251
+callc rd rk display_1
+movc ro 250
+callc rd rk display_8
+movr rk 19
+movc ro 251
+callc rd rk display_1
+movc ro 250
+callc rd rk display_9
+movr rk 20
+movc ro 251
+callc rd rk display_2
+movc ro 250
+callc rd rk display_0
+movr rk 21
+movc ro 251
+callc rd rk display_2
+movc ro 250
+callc rd rk display_1
+movr rk 22
+movc ro 251
+callc rd rk display_2
+movc ro 250
+callc rd rk display_2
+movr rk 23
+movc ro 251
+callc rd rk display_2
+movc ro 250
+callc rd rk display_3
+movr rk 24
+movc ro 251
+callc rd rk display_2
+movc ro 250
+callc rd rk display_4
+movr rk 25
+movc ro 251
+callc rd rk display_2
+movc ro 250
+callc rd rk display_5
+movr rk 26
+movc ro 251
+callc rd rk display_2
+movc ro 250
+callc rd rk display_6
+movr rk 27
+movc ro 251
+callc rd rk display_2
+movc ro 250
+callc rd rk display_7
+movr rk 28
+movc ro 251
+callc rd rk display_2
+movc ro 250
+callc rd rk display_8
+movr rk 29
+movc ro 251
+callc rd rk display_2
+movc ro 250
+callc rd rk display_9
+movr rk 30
+movc ro 251
+callc rd rk display_3
+movc ro 250
+callc rd rk display_0
+movr rk 31
+movc ro 251
+callc rd rk display_3
+movc ro 250
+callc rd rk display_1
