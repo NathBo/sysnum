@@ -207,7 +207,13 @@ let simulator program number_steps =
 
     incr i;
     let ram = Hashtbl.find memory "pre_result_ram" in
-    print_bool_array (compute_array ram.(7));
+    print_string "secondes : ";
+    print_int (bitarray_to_int ram.(7));
+    print_string "\nminutes : ";
+    print_int (bitarray_to_int ram.(8));
+    print_string "\nheures : ";
+    print_int (bitarray_to_int ram.(9));
+    print_endline "";
   done
 
 
