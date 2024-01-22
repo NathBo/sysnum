@@ -1,3 +1,5 @@
-movc ra 5
-setram ra rj 7
-getram rb rj 7
+movc rb 6
+label START
+setram ra rj 0
+addc ra 1
+compc rb ra START
