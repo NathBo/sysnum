@@ -206,9 +206,9 @@ let simulator program number_steps =
   let ram = Array.make (puissance 2 16) (VBitArray(Array.make 16 false)) in
   let t = localtime (time()) in
   let sec = t.tm_sec and min = t.tm_min and hour = t.tm_hour in
-  ram.(1) <- to_16b sec;
-  ram.(2) <- to_16b min;
-  ram.(3) <- to_16b hour;
+  ram.(1) <- to_16b 45;
+  ram.(2) <- to_16b 59;
+  ram.(3) <- to_16b 23;
   print_int sec;
   Hashtbl.add memory "pre_result_ram" ram;
   let i = ref 1 in

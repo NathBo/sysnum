@@ -120,11 +120,11 @@ jump re rj MOIS_31
 
 label MOIS_31 (* Gestion des mois de 31 jours, c'est à dire qu'on charge la bonne constante dans le registre rj *)
 movc rj 31
-jump ra ra JOURS
+jump ra ra JOURS_2
 
 label MOIS_30 (* Gestion des mois de 30 jours *)
 movc rj 30
-jump ra ra JOURS
+jump ra ra JOURS_2
 
 label MOIS_FEVRIER (* Gestion du mois de février, un peu plus compliqué car c'est ici qu'on va gérer les années bissextiles *)
 movc rk 0
@@ -134,14 +134,13 @@ jump rk rg CHARGEMENT_29
 
 label CHARGEMENT_29 (* Chargement de 29 dans rj constante pour le mois de février *)
 movc rj 29
-jump ra ra JOURS
+jump ra ra JOURS_2
 
 label CHARGEMENT_28 (* Chargement de 28 dans la constante rj pour le mois de février *)
 movc rj 28
-jump ra ra JOURS
+jump ra ra JOURS_2
 
-label JOURS (* Augmentation des jours *)
-addc rd 1
+label JOURS_2 (* Augmentation des jours *)
 addc rj 1
 jump rd rj MOIS
 jump ra ra DEBUT
