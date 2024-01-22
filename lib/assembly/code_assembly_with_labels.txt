@@ -15,8 +15,6 @@
 *)
 
 label CHARGEMENT_VALEURS (* Chargement de toutes les valeurs nécessaires pour commencer *)
-movc rj 0
-movc rl 4
 setram rl rj 7
 getram ra rj 1
 getram rb rj 2
@@ -27,14 +25,11 @@ getram rf rj 6
 
 label INIT_MOD_4 (* Initialisation du compteur modulo 4 *)
 movr rg rf
-movc rn 0
 
 label BOUCLE_MOD_4 (* Boucle pour faire descendre le compteur modulo 4 *)
-addc rn 1
 movc rj 0
 movc rl 4
-setram rl rj 7
-compc rl rg INIT_MOD_100
+compc rg rl INIT_MOD_100
 movc rj 4
 sub rg rj
 jump ra ra BOUCLE_MOD_4
