@@ -1,161 +1,265 @@
+open Netlist_ast
 open Graphics_helper
 open Unix
-open Netlist_ast
-
+let compt= ref 0
 let print_only = ref false
 let number_steps = ref (-1)
 
-exception Not_byte
-type type_env = ty Env.t
-type val_env = value Env.t
+let env = Hashtbl.create 256
 
-let simulator p number_steps = 
-  let script = "clock.txt" in
+let envreg = Hashtbl.create 256
 
-  let prev_env = ref Env.empty in
-  let start_ram_screen = 14 in
-  let ram = Array.init (16*(m_width*m_height + start_ram_screen)) (fun _ -> VBitArray(Array.make 16 false)) in 
-  (*1: seconde passée
-    6: temps initial
-    3: inputs M, S, R: mode, start/stop, reset (start/reset seulement en mode timer) *)
+let memory = Hashtbl.create 256
 
-  let get_lines file = 
-    let lines = ref [] in
-    let chan = open_in file in
-    try
-      while true; do
-        lines := input_line chan :: !lines
-      done; !lines
-    with End_of_file ->
-      close_in chan;
-      List.rev !lines 
-    in
-  let lines = get_lines script in
-  let rom = Array.make (List.length lines) (VBitArray(Array.make 32 false)) in
-  let i = ref 0 in
-  let bool_of_char = function |'0' -> false |'1' -> true |_ -> Format.eprintf "scirpt is not in binary"; exit 2 in
-  List.iter (fun line -> 
-      let VBitArray(arr) = rom.(!i) in
-      for j = 0 to 31 do 
-        arr.(j) <- bool_of_char line.[j];
+let rams = ref []
+
+
+
+
+let rec puissance a n = match n with
+    | 0 -> 1
+    | _ -> a*puissance a (n-1)
+
+
+
+let ajout_a_env id t = match t with
+  | TBit -> Hashtbl.add env id (VBit false);Hashtbl.add envreg id (VBit false)
+  | TBitArray n -> Hashtbl.add env id (VBitArray(Array.make n false));Hashtbl.add envreg id (VBitArray(Array.make n false))
+
+let rec input_dans_env l p_vars = match l with
+  | [] -> ()
+  | id::q -> begin match Env.find id p_vars with
+    | TBit -> print_string id;
+      print_string " ? ";
+      let s = ref (read_line ()) in
+      while !s <> "0" && !s<> "1" do
+        print_string "Wrong input.\n";
+        print_string id;
+        print_string " ? ";
+        s := read_line () done;
+      if !s="0"
+      then Hashtbl.replace env id (VBit false)
+      else Hashtbl.replace env id (VBit true);
+      input_dans_env q p_vars
+    | TBitArray n -> print_string id;
+      print_string " ? ";
+      let s = ref (read_line ()) in
+      let rep = Array.make n false in
+      let correct = ref (String.length !s = n) in
+      for i=0 to n-1 do
+        if !correct && !s.[i] = '0'
+        then rep.(i) <- false
+        else if !correct && !s.[i] = '1'
+        then rep.(i) <- true
+        else correct := false done;
+      while not !correct do
+        print_string "Wrong input.\n";
+        print_string id;
+        print_string " ? ";
+        let s = ref (read_line ()) in
+        correct := (String.length !s = n);
+        for i=0 to n-1 do
+          if !correct && !s.[i] = '0'
+          then rep.(i) <- false
+          else if !correct && !s.[i] = '1'
+          then rep.(i) <- true
+          else correct := false done;done;
+      Hashtbl.replace env id (VBitArray rep);
+      input_dans_env q p_vars end
+
+
+
+let refersh_envreg id _ =
+  Hashtbl.replace envreg id (Hashtbl.find env id)
+
+
+let xor a b =
+  (a || b) && (not (a&&b))
+
+
+let string_of_bit b =
+  if b then "1" else "0"
+
+
+let compute_value valu = match valu with
+  | VBit b -> b
+  | _ -> failwith "Pas un bit mais un array"
+
+let compute_array valu = match valu with
+  | VBit b -> Array.make 1 b
+  | VBitArray a -> a
+
+
+let compute_arg argu = match argu with
+  | Avar id -> Hashtbl.find env id
+  | Aconst valu -> valu
+
+
+  
+
+  let print_bool b =
+    if b then print_string "1"
+    else print_string "0"
+  
+  let print_bool_array bs =
+    for i=0 to Array.length bs -1 do
+      print_bool bs.(i)
+    done;
+    print_endline ""
+
+
+
+  let bitarray_to_int v = match v with
+  | VBit b -> if b then 1 else 0
+  | VBitArray a -> let rep = ref 0 in
+    let power2 = ref 1 in
+    for i=0 to (Array.length a)-1 do
+      if(a.(i))then rep := !rep + !power2;
+      power2 := !power2*2 done;
+    !rep
+
+let bit_of_char c =
+  if c = '0'
+    then false
+else if c = '1'
+  then true
+else failwith "Invalid character for a bit (not 0 or 1)"
+
+
+
+let execute exp id = match exp with
+  | Earg argu -> compute_arg argu
+  | Enot argu -> VBit (not(compute_value(compute_arg argu)))
+  | Ebinop (op,argu1,argu2) ->  begin match op with
+    | Or -> VBit(compute_value (compute_arg argu1) || compute_value (compute_arg argu2))
+    | Xor -> VBit(xor (compute_value (compute_arg argu1)) (compute_value (compute_arg argu2)))
+    | And -> VBit(compute_value (compute_arg argu1) && compute_value (compute_arg argu2))
+    | Nand -> VBit(compute_value (compute_arg argu1) && compute_value (compute_arg argu2)) end
+  | Emux (argu1,argu2,argu3) -> if (compute_value (compute_arg argu1))
+    then compute_arg(argu3)
+    else compute_arg(argu2)
+  | Econcat (arg1,arg2) -> VBitArray(Array.append (compute_array(compute_arg arg1)) (compute_array(compute_arg arg2)))
+  | Eslice (a,b,argu) -> VBitArray(Array.sub (compute_array (compute_arg argu)) a (b-a+1))
+  | Eselect (i,argu) -> VBit((compute_array (compute_arg argu)).(i))
+  | Ereg id -> Hashtbl.find envreg id
+  | Erom (adrrs,wrds,addr) -> if Hashtbl.mem memory id
+    then (Hashtbl.find memory id).(bitarray_to_int (compute_arg addr))
+    else begin
+      let ic = open_in ("../assembly/code_cpu.txt") in
+      let rep = (Array.make (puissance 2 adrrs) (VBitArray(Array.make wrds false))) in
+      for i=0 to puissance 2 adrrs -1 do
+        let line = try input_line ic with End_of_file -> "00000000000000000000000000000000" in
+        let tabl = Array.make wrds false in
+        for j=0 to wrds-1 do
+          tabl.(j) <- bit_of_char line.[j]
+        done;
+        rep.(i) <- VBitArray(tabl)
       done;
-    incr i) 
-    lines;
-  (*let rom = Array.map (fun s -> Vbit(bool_of_string x)) (Array.of_seq (String.to_seq (input_line ic))) in*)
+      Hashtbl.add memory id rep;
+      (Hashtbl.find memory id).(bitarray_to_int (compute_arg addr))
 
+    end 
+  | Eram (adrrs,wrds,read_addr,write_e,write_addr,data) -> let rep = if Hashtbl.mem memory id
+    then (Hashtbl.find memory id).(bitarray_to_int (compute_arg read_addr))
+    else (Hashtbl.add memory id (Array.make (puissance 2 adrrs) (VBitArray(Array.make wrds false)));VBitArray(Array.make wrds false)) in
+    rams := (id,exp):: (!rams);
+    rep
+
+
+let rec calc_eqs l = match l with
+    | [] -> ()
+    | (id,eq)::q -> Hashtbl.replace env id (execute eq id);calc_eqs q
+
+
+let rec print_outputs l = match l with
+    | [] -> ()
+    | id::q -> let o = Hashtbl.find_opt env id in
+      (match o with
+        | None -> failwith ("la valeur "^id^" n'existe pas")
+        | Some x -> (print_string (id^" => ");print_int (bitarray_to_int x);
+            print_string "\n");
+      print_outputs q)
+  
     
-  screen_init ();
 
-  let to_16b n = 
-    let rec d2b y lst = match y with 0 -> lst
-        | _ -> d2b (y/2) ((if y mod 2 = 0 then false else true) :: lst)
-      in
-      let final = d2b n [] 
+let to_16b n =
+  let rec d2b y lst = match y with 0 -> lst
+      | _ -> d2b (y/2) ((if y mod 2 = 0 then false else true) :: lst)
     in
-    VBitArray (Array.of_list (List.init (16-List.length final) (fun _ -> false) @ final))
+    let final = d2b n []
   in
-  let from_16b l = 
-    let rec aux acc = function
-      |[] -> acc
-      |b :: t -> aux (2*acc + Bool.to_int b) t in
-    aux 0 l in
+  VBitArray (Array.of_list (List.rev (List.init (16-List.length final) (fun _ -> false) @ final)))
+let simulator program number_steps = let number_steps= -1 in
+  Env.iter ajout_a_env program.p_vars;
+  let i = ref 1 in
+  let ram = (Array.make (puissance 2 16) (VBitArray(Array.make 16 false))) in
 
-  (*donner le temps initial*)
-  let t = localtime (time()) in
-  let sec = t.tm_sec and min = t.tm_min and hour = t.tm_hour and mday = t.tm_mday and mon = t.tm_mon and year = 1900 + t.tm_year in
+  screen_init ();
+  let start_screen = 100 in
+
+  let t = (localtime (time())) in
+  let sec = t.tm_sec and min = t.tm_min and hour = t.tm_hour and mday = t.tm_mday and mon = t.tm_mon + 1 and year = 1900 + t.tm_year in
   let time_desc = Array.of_list (List.map to_16b [sec; min; hour; mday; mon; year]) in
   Array.blit time_desc 0 ram 1 (Array.length time_desc);
-
+  Hashtbl.add memory "pre_result_ram" ram;
 
   let t = ref (time()) in
-  let k = ref 0 in 
-  while !k <> number_steps do
-    Printf.printf "\n\n\nNouveau cycle de la clock, k=%d \n\n\n%!" !k;
-    let to_write = ref [] in
-    let to_value env = function
-      |Avar(id) -> Env.find id env
-      |Aconst(x) -> x in
 
-    (* calcule la valeur de eq en évaluant les arguments dans env *)
-    let eval env eq = match snd eq with
-      | Earg(arg) -> to_value env arg
-      | Enot(arg) -> (match to_value env arg with |VBit(a) -> VBit(not a))
-      | Ereg(id) -> (try Env.find id !prev_env with |_ -> (match Env.find id p.p_vars with |TBit -> VBit(false) 
-                                                            |TBitArray(n) -> VBitArray(Array.init n (fun _ -> false))))
-      | Ebinop(binop, arg1, arg2) -> (match binop, to_value env arg1, to_value env arg2 with
-        |Or, VBit(a), VBit(b) -> VBit(a || b)
-        |Xor, VBit(a), VBit(b) -> VBit(a <> b)
-        |And, VBit(a), VBit(b) -> VBit(a && b)
-        |Nand, VBit(a), VBit(b) -> VBit(not (a && b))
-        |_ -> failwith "binop not supported")
+  while !i<>number_steps+1 do
+    print_string "\nStep ";
+    print_int !i;
+    print_string ":\n";
 
-      | Emux(a1, a2, a3) -> let VBit(b1) = to_value env a1 in if b1 then to_value env a3 else to_value env a2
-      | Erom(addr_s, wrd_s, read_addr) -> 
-        let addr = from_16b ((fun (VBitArray(arr)) -> Array.to_list arr) (to_value env read_addr)) in
-        rom.(addr)
-      | Eram(addr_s, wrd_s, read_addr, we, wr_addr, data) -> 
-        let r_addr = from_16b ((fun (VBitArray(arr)) -> Array.to_list arr) (to_value env read_addr)) in
-        let w_addr = from_16b ((fun (VBitArray(arr)) -> Array.to_list arr) (to_value env wr_addr)) in
-        to_write := (we, r_addr, wrd_s, w_addr, data) :: !to_write; 
-        ram.(r_addr)
-      | Econcat(a1, a2) -> (match to_value env a1, to_value env a2 with 
-        | VBitArray(arr1), VBitArray(arr2) -> VBitArray(Array.concat [arr1; arr2])
-        | VBitArray(arr1), VBit(a) -> VBitArray(Array.concat [arr1; [|a|]])
-        | VBit(a), VBitArray(arr2) -> VBitArray(Array.concat [[|a|]; arr2])
-        | VBit(a), VBit(b) -> VBitArray([|a; b|]))
-      | Eslice(i1, i2, a) -> let VBitArray(arr) = to_value env a in VBitArray(Array.sub arr i1 (i2-i1+1))
-      | Eselect(i, a) -> match to_value env a with 
-        |VBit(a) -> VBit(a)
-        |VBitArray(arr) -> VBit(arr.(i)) in
-    let add env eq =  Env.add (fst eq) (eval env eq) env in
-    let current_env = List.fold_left add Env.empty p.p_eqs in
+    rams := [];
+    Env.iter refersh_envreg program.p_vars;
+    input_dans_env program.p_inputs program.p_vars;
+    calc_eqs program.p_eqs;
 
-    (*faire les writes de RAM*)
     let set_white = ref [] and set_black = ref [] in
-    let mem_add (we, addr_s, wrd_s, addr, data) = 
-      let VBit(write) = to_value current_env we in
-      if write then (
-        let dat = to_value current_env data in
-        ram.(addr) <- dat;
-        if addr >= start_ram_screen then 
-          let VBitArray(arr) = dat in
-          let addr = addr - start_ram_screen in
-          for i = 0 to 15 do 
-            if arr.(i) = false then set_white := (16*addr+i) :: !set_white else set_black := (16*addr+i) :: !set_black
-          done)
-    in
-    List.iter mem_add !to_write;
+    let write_ram eq = match eq with
+    | (id,Eram (adrrs,wrds,_,write_e,write_addr,data)) ->
+      if compute_value(compute_arg write_e)
+        then ((if not (Hashtbl.mem memory id)
+          then Hashtbl.add memory id (Array.make (puissance 2 adrrs) (VBitArray(Array.make wrds false))));
+          (Hashtbl.find memory id).(bitarray_to_int (compute_arg write_addr)) <- compute_arg data;
+          match compute_arg data with 
+          |VBitArray(arr) ->
+            let addr = (bitarray_to_int (compute_arg write_addr)) - start_screen in
+            for i = 0 to 15 do
+              if not arr.(i) then set_white := (16*addr+i) :: !set_white else set_black := (16*addr+i) :: !set_black
+            done
+          |_ -> failwith "la ram est pas 16 bit")
+    | _ -> failwith "devrait etre un Eram" in
+    List.iter write_ram !rams;
     update_display !set_white !set_black;
 
-    let input = get_input () in
-    if input.Graphics.keypressed then (match input.Graphics.key with
-      |'m' | 'M' -> ram.(7*16) <- to_16b(1) 
-      |'s' | 'S' -> ram.(8*16) <- to_16b(1) 
-      |'r' | 'R' -> ram.(9*16) <- to_16b(1) 
-      |_ -> ());
+    print_outputs program.p_outputs;
+
+    incr i;
+    let ram = Hashtbl.find memory "pre_result_ram" in
+    print_string "secondes : ";
+    print_int (bitarray_to_int ram.(7));
+    print_string "\nminutes : ";
+    print_int (bitarray_to_int ram.(8));
+    print_string "\nheures : ";
+    print_int (bitarray_to_int ram.(9));
+    print_endline "";
 
     if time() > !t +. 1. then
-      (ram.(0) <- to_16b(1); t := !t +. 1.);
-
-    Printf.printf "\n nouveau cycle \n";
-    for i = 7 to 12 do
-      Printf.printf "%d\n%!" (from_16b ((fun (VBitArray(arr)) -> Array.to_list arr) ram.(i)))
-    done;
-    
-    incr k;
-
+      (ram.(0) <- to_16b(1); t := !t +. 1.;incr compt;);
   done
 
 
 let compile filename =
   try
     let p = Netlist.read_file filename in
-    try
-      let p = Scheduler.schedule p in
-      simulator p !number_steps
-    with
-      | Scheduler.Combinational_cycle ->
-          Format.eprintf "The netlist has a combinatory cycle.@.";
+    begin try
+        let p = Scheduler.schedule p in
+        simulator p !number_steps
+      with
+        | Scheduler.Combinational_cycle ->
+            Format.eprintf "The netlist has a combinatory cycle.@.";
+    end;
   with
     | Netlist.Parse_error s -> Format.eprintf "An error accurred: %s@." s; exit 2
 
@@ -165,5 +269,5 @@ let main () =
     compile
     ""
 ;;
-(*main ()*)
+
 compile "processeur.txt"
