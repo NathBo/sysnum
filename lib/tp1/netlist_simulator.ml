@@ -174,13 +174,7 @@ let rec print_outputs l = match l with
     | id::q -> let o = Hashtbl.find_opt env id in
       (match o with
         | None -> failwith ("la valeur "^id^" n'existe pas")
-        | Some x -> (match x with 
-          | VBit _ -> print_string ("=> "^id^" = "^(string_of_bit (compute_value(x)))^"\n")
-          | VBitArray a -> print_string ("=> "^id^" = ");
-            for i=0 to Array.length a -1  do
-              if a.(i)
-              then print_string "1"
-              else print_string "0" done;
+        | Some x -> (print_int (bitarray_to_int x);
             print_string "\n");
       print_outputs q)
     
