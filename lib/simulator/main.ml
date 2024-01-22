@@ -10,7 +10,6 @@ type type_env = ty Env.t
 type val_env = value Env.t
 
 let simulator p number_steps = 
-  Printf.printf "hello3%!";
   let script = "clock.txt" in
 
   let prev_env = ref Env.empty in
@@ -32,16 +31,15 @@ let simulator p number_steps =
       List.rev !lines 
     in
   let lines = get_lines script in
-  let rom = Array.make (2*List.length lines) (VBitArray(Array.make 16 false)) in
+  let rom = Array.make (List.length lines) (VBitArray(Array.make 32 false)) in
   let i = ref 0 in
   let bool_of_char = function |'0' -> false |'1' -> true |_ -> Format.eprintf "scirpt is not in binary"; exit 2 in
   List.iter (fun line -> 
-      let VBitArray(arr1) = rom.(!i) and VBitArray(arr2) = rom.(!i+1) in
-      for j = 0 to 15 do 
-        arr1.(j) <- bool_of_char line.[j];
-        arr2.(j) <- bool_of_char line.[j+16]
+      let VBitArray(arr) = rom.(!i) in
+      for j = 0 to 31 do 
+        arr.(j) <- bool_of_char line.[j];
       done;
-      i := !i + 2) 
+    incr i) 
     lines;
   (*let rom = Array.map (fun s -> Vbit(bool_of_string x)) (Array.of_seq (String.to_seq (input_line ic))) in*)
 
@@ -72,6 +70,7 @@ let simulator p number_steps =
   let t = ref (time()) in
   let k = ref 0 in 
   while !k <> number_steps do
+    Printf.printf "\n\n\nNouveau cycle de la clock, k=%d \n\n\n%!" !k;
     let to_write = ref [] in
     let to_value env = function
       |Avar(id) -> Env.find id env
@@ -93,7 +92,7 @@ let simulator p number_steps =
       | Emux(a1, a2, a3) -> let VBit(b1) = to_value env a1 in if b1 then to_value env a3 else to_value env a2
       | Erom(addr_s, wrd_s, read_addr) -> 
         let addr = from_16b ((fun (VBitArray(arr)) -> Array.to_list arr) (to_value env read_addr)) in
-        rom.(addr_s)
+        rom.(addr)
       | Eram(addr_s, wrd_s, read_addr, we, wr_addr, data) -> 
         let r_addr = from_16b ((fun (VBitArray(arr)) -> Array.to_list arr) (to_value env read_addr)) in
         let w_addr = from_16b ((fun (VBitArray(arr)) -> Array.to_list arr) (to_value env wr_addr)) in
@@ -127,33 +126,32 @@ let simulator p number_steps =
     in
     List.iter mem_add !to_write;
     update_display !set_white !set_black;
-    
+
     let input = get_input () in
-    if input.Graphics.keypressed then match input.Graphics.key with
+    if input.Graphics.keypressed then (match input.Graphics.key with
       |'m' | 'M' -> ram.(7*16) <- to_16b(1) 
       |'s' | 'S' -> ram.(8*16) <- to_16b(1) 
       |'r' | 'R' -> ram.(9*16) <- to_16b(1) 
-      |_ -> ();
+      |_ -> ());
 
     if time() > !t +. 1. then
-      (ram.(0) <- to_16b(1) ; t := !t +. 1.);
+      (ram.(0) <- to_16b(1); t := !t +. 1.);
 
     Printf.printf "\n nouveau cycle \n";
     for i = 7 to 12 do
       Printf.printf "%d\n%!" (from_16b ((fun (VBitArray(arr)) -> Array.to_list arr) ram.(i)))
-    done
+    done;
     
+    incr k;
+
   done
 
 
 let compile filename =
-  Printf.printf "hello0%!";
   try
     let p = Netlist.read_file filename in
-    Printf.printf "hello1%!";
     try
       let p = Scheduler.schedule p in
-      Printf.printf "hello2%!";
       simulator p !number_steps
     with
       | Scheduler.Combinational_cycle ->
