@@ -72,6 +72,7 @@ constant:
     | c = CONST
         { Const (c) }
 
+
 labelname:
     | s = LABELNAME
         { Labelname (s) }

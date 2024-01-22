@@ -14,8 +14,11 @@ let hashtblfind h s =
 let size_reg = 4
 let size_const = 16
 
-let input = "code_assembly_with_labels.txt"
+let input = "code_assembly.txt"
 let output = "code_cpu.txt"
+
+
+
 
 let convert_assembly = 
   let channel = open_in input in

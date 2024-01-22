@@ -1,8 +1,16 @@
-movc ra 16
+movc ra $0000100000000000
 movc rb 0
-movc rc 3
+
+jump ra ra START
+
+label AJOUTE1
+
+addc rb 1
+return
+
 
 label START
 
-addc rb 1
-goreg rc
+call AJOUTE1
+
+compc ra rb START

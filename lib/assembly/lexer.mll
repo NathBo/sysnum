@@ -67,6 +67,8 @@ let bigletter = ['A' - 'Z' '_' '0' - '9']
 let bigword = bigletter+
 let newline = ['\n']
 let digit = ['0'-'9']
+let digit01 = ['0' '1']
+let numberbase2 = '$' digit01*
 let number = digit+
 let word = letter+
 
@@ -82,6 +84,9 @@ rule next_token = parse
 
     | number as n
         { CONST( convert_to_base_2 (int_of_string (n))) }
+
+    | numberbase2 as n
+        { CONST(String.sub n 1 16)}
 
     | bigword as w
         { LABELNAME(w) }
