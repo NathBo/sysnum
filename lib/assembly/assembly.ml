@@ -33,6 +33,7 @@ let convert_assembly =
     fun call -> match  call with
     | Label(Labelname(s)) -> Hashtbl.add labels s !cpt
     | Call _ -> cpt := !cpt + 2
+    | Callc _ -> cpt := !cpt + 2
     | _ -> incr cpt
   )
   calls;

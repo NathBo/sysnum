@@ -1,6 +1,6 @@
 (executables
  (names graph_test scheduler_test netlist_simulator)
- (libraries unix)
+ (libraries unix graphics)
  (modes byte exe)
  (flags ()))
 

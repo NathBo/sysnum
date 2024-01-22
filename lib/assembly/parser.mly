@@ -2,7 +2,7 @@
     open Ast
 %}
 
-%token ADD ADDC SUB SUBC MOVR MOVC JUMP GETRAM SETRAM LABEL COMPC GOREG CALL RETURN
+%token ADD ADDC SUB SUBC MOVR MOVC JUMP GETRAM SETRAM LABEL COMPC GOREG CALL CALLC RETURN
 %token <string> REG LABELNAME
 %token <string> CONST
 %token NEWLINE
@@ -45,6 +45,9 @@ instruction:
 
     | CALL l = labelname
         { Call(l) }
+    
+    | CALLC r1 = reg r2 = reg l =labelname
+        { Callc (l, r1, r2) }
 
     | RETURN
         { Return }
