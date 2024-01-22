@@ -1,5 +1,6 @@
 (*open Graphics*)
 open Netlist_ast
+open Unix
 
 
 let print_only = ref false
@@ -125,6 +126,14 @@ else if c = '1'
   then true
 else failwith "Invalid character for a bit (not 0 or 1)"
 
+let to_16b n = 
+  let rec d2b y lst = match y with 0 -> lst
+      | _ -> d2b (y/2) ((if y mod 2 = 0 then false else true) :: lst)
+    in
+    let final = d2b n [] 
+  in
+  VBitArray (Array.of_list (List.rev (List.init (16-List.length final) (fun _ -> false) @ final)))
+
 
 
 let execute exp id = match exp with
@@ -194,6 +203,14 @@ let write_ram eq = match eq with
 
 let simulator program number_steps =
   Env.iter ajout_a_env program.p_vars;
+  let ram = Array.make (puissance 2 16) (VBitArray(Array.make 16 false)) in
+  let t = localtime (time()) in
+  let sec = t.tm_sec and min = t.tm_min and hour = t.tm_hour in
+  ram.(1) <- to_16b sec;
+  ram.(2) <- to_16b min;
+  ram.(3) <- to_16b hour;
+  print_int sec;
+  Hashtbl.add memory "pre_result_ram" ram;
   let i = ref 1 in
   while !i<>number_steps+1 do
     print_string "\nStep ";

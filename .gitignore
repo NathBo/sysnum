@@ -12,3 +12,5 @@ beamer/beamer.toc
 beamer/beamer.pdf
 lib/assembly/code_cpu.txt
 lib/tp1/netlist_simulator.byte
+lib/tp1/_build
+lib/_build
