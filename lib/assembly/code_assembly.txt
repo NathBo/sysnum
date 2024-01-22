@@ -11,6 +11,5 @@ return
 
 label START
 
-call AJOUTE1
 
-compc ra rb START
+compc rb ra START
