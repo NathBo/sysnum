@@ -174,7 +174,7 @@ let rec print_outputs l = match l with
     | id::q -> let o = Hashtbl.find_opt env id in
       (match o with
         | None -> failwith ("la valeur "^id^" n'existe pas")
-        | Some x -> (print_int (bitarray_to_int x);
+        | Some x -> (print_string (id^" => ");print_int (bitarray_to_int x);
             print_string "\n");
       print_outputs q)
     
