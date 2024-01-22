@@ -1,6 +1,6 @@
 print("label AFFICHAGE_JOURS")
 print("movr rj rd")
-for jour in range(31):
+for jour in range(1, 32):
     unite = jour % 10
     dizaine = jour // 10
     appel1 = "call display_" + str(dizaine)
