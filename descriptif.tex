@@ -37,7 +37,7 @@ On opte pour une architecture 16 bits avec des instructions définies sur 32 bit
 
 L'horloge du microprocesseur utilise l'horloge de l'ordinateur pour connaître l'heure exacte, l'ordinateur définissant préalablement le framerate du microprocesseur en lui indiquant chaque changement de frame dans un endroit désigné de la ROM.
 
-La prise d'input ce fait en donnant le dernier input dans un endroit désigné de la ROM, jusqu'à l'arrivée du prochain input. Ceci impose une limite de 1 input par cycle, ce qui ne pause pas de problème en pratique (on ne considère pas le maintien d'une touche).
+La prise d'input ce fait en donnant le dernier input dans un endroit désigné de la RAM, jusqu'à l'arrivée du prochain input. Ceci impose une limite de 1 input par cycle, ce qui ne pause pas de problème en pratique (on ne considère pas le maintien d'une touche).
 
 Tous les calculs du microprocesseur seront faits sur des registres de 16 bits.
 
