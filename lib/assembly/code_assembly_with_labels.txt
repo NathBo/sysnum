@@ -22,6 +22,13 @@ getram re rj 5
 getram rf rj 6
 
 label DEBUT (* Le programme commence ici *)
+movc rj 0
+setram ra rj 7
+setram rb rj 8
+setram rc rj 9
+setram rd rj 10
+setram re rj 11
+setram rf rj 12
 
 label INIT_MOD_4 (* Initialisation du compteur modulo 4 *)
 movr rg rf
@@ -150,7 +157,7 @@ jump rh rj REMISE_A_ZERO_DES_COMPTEURS_MOD100_ET_MOD4
 movc rj 4
 jump rg rj REMISE_A_ZERO_DU_COMPTEUR_MOD4
 
-label REMISE_A_ZERO_DE_TOUS_LES_COMPTEURS (*Remise à zéro des trois compteurs*)
+label REMISE_A_ZERO_DE_TOUS_LES_COMPTEURS (* Remise à zéro des trois compteurs *)
 movc ri 0
 movc rh 0
 movc rg 0
