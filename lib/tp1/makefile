@@ -6,4 +6,3 @@ all:
 clean:
 	rm netlist_simulator.byte
 	rm -r _build/
-	dune clean

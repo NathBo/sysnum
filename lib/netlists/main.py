@@ -1,5 +1,6 @@
 from lib_carotte import *
 
+#pour compiler python3 carotte.py -o alu.net main.py
 
 def full_adder(a, b, c):
     tmp = a ^ b

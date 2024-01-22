@@ -4,7 +4,7 @@ assembly.exe:
 	dune build assembly.exe
 
 assembly: assembly.exe
-	cp assembly.exe assembly
+	dune exec ./assembly
 
 clean:
 	rm assembly
