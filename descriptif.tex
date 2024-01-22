@@ -52,7 +52,7 @@ Le microprocesseur lit les instructions qu'il doit exécuter depuis un fichier (
 Chaque instruction fait 32 bits, peut prendre en argument jusqu'à 2 numéros de registre et une constante. On doit donc stocker une instruction sur deux registres, le deuxième correspondant toujours à une constante (non initialisée si l'instruction n'utilise pas de constante). Une instruction est donc découpée en 
 
 \begin{itemize}
-    \item 4 bits du code de l'instruction
+    \item 8 bits du code de l'instruction
     \item deux blocs de quatre bits renseignant les registres en argument
     \item un deuxième registre de constante
 \end{itemize}
@@ -72,32 +72,43 @@ Voici une liste des différentes instructions, de leur code en binaire, et de le
     \hline
     nom & code & effet \\
     \hline
-    stop & 0000 & stoppe le programme \\
+    add r1 r2 & 01101000 & r1 <- r1 + r2 \\
     \hline
-    add r1 r2 & 0010 & r1 <- r1 + r2 \\
+    addc r1 c & 00101000 & r1 <- r1 + c \\
     \hline
-    sub r1 r2 & 0110 & r1 <- r1 - r2 \\
+    sub r1 r2 & 11101000 & r1 <- r1 - r2 \\
     \hline
-    movr r1 r2 & 1010 & r1 <- r2 \\
+    subc r1 c & 10101000 & r1 <- r1 - c \\
     \hline
-    movc r1 c & 0011 & r1 <- c \\
+    movr r1 r2 & 01001000 & r1 <- r2 \\
     \hline
-    jump r1 r2 c & 0001 & on saute à la ligne c si r1 = r2 \\
+    movc r1 c & 00001000 & r1 <- c \\
     \hline
-    getram r1 r2 c & 0101 & r1 <- RAM(r2 + c) \\
+    jump r1 r2 c & 11100100 & on saute à la ligne c si r1 = r2 \\
     \hline
-    setram r1 r2 c & 1001 & RAM(r2 + c) <- r1 \\
+    compc r1 r2 c & 11100110 & on saute à la ligne c si r1 < r2 \\
     \hline
-    rom r1 r2 c & 1101 & r1 <- ROM(r2 + c) \\
+    goreg r1 & 00000101 & on saut à la ligne r1\\
+    \hline
+    getram r1 r2 c & 01111000 & r1 <- RAM(r2 + c) \\
+    \hline
+    setram r1 r2 c & 01110000 & RAM(r2 + c) <- r1 \\
     \hline
 \end{tabularx}
 
 
 \;
 
+De plus, pour le confort de codage, on jump à un label et non à une constante. Le parseur fait alors de convertir ces labels en constante.
 
-Le bit de poids faible indique si l'instruction contient une constante, le deuxième bit de poids faible si l'instruction appelle un ou deux registres.
-On numérote ensuite les instructions de chaque catégorie en les énumérant. 
+Enfin on rajoute 2 instructions:
+
+\begin{itemize}
+    \item call label: movc rp ligneactuelle; jump ra ra label
+    \item return: goreg rp
+\end{itemize}
+
+Ces instructions nous permettent d'appeler des fonctions, au détail que la pile d'appel est de taille 1.
 
 \section{Affichage graphique}
 
