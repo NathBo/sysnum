@@ -132,12 +132,12 @@ jump rk ri CHARGEMENT_29
 jump rk rh CHARGEMENT_28
 jump rk rg CHARGEMENT_29
 
-label CHARGEMENT_29 (* Chargement de 29 dans rj constante pour le mois de février *)
-movc rj 29
-jump ra ra JOURS_2
-
 label CHARGEMENT_28 (* Chargement de 28 dans la constante rj pour le mois de février *)
 movc rj 28
+jump ra ra JOURS_2
+
+label CHARGEMENT_29 (* Chargement de 29 dans rj constante pour le mois de février *)
+movc rj 29
 jump ra ra JOURS_2
 
 label JOURS_2 (* Augmentation des jours *)
