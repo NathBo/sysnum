@@ -116,7 +116,7 @@ def execute(r1,r2,sub,c,use2reg,do_operation,ram,we,compc,goreg):
     bon_val1 = Mux(ram,val1,c)
     pre_result,_ = alu(sub,bon_val1,bon_val2)
     pre_result_regop = Mux(do_operation,bon_val2,pre_result)
-    pre_result_ram = RAM(16,16,pre_result,Not(we),bon_val2,val1)
+    pre_result_ram = RAM(16,16,pre_result,Not(we),pre_result,val1)
     result = Mux(ram,pre_result_regop,pre_result_ram)
     over = Select(15,result)
     need_to_jump = Or(Mux(compc,is0(result),Not(over)),goreg)

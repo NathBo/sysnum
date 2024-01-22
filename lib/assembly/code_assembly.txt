@@ -1,15 +1,3 @@
-movc ra $0000100000000000
-movc rb 0
-
-jump ra ra START
-
-label AJOUTE1
-
-addc rb 1
-return
-
-
-label START
-
-
-compc rb ra START
+movc ra 5
+setram ra rj 7
+getram rb rj 7
