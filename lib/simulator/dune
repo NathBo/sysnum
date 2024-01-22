@@ -1,9 +1,0 @@
-(ocamllex
- (modules netlist_lexer))
-(menhir
- (modules netlist_parser))
-(executable
- (public_name main)
- (libraries graphics unix)
- (promote (until-clean))
- (flags ()))

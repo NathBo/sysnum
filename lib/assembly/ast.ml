@@ -18,6 +18,7 @@ type instruction =
 	| Label of labelname
 	| Goreg of reg
 	| Call of labelname
+	| Callc of reg *reg * labelname
 	| Return
 
 type file = File of instruction list

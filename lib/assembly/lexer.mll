@@ -26,6 +26,7 @@
                 ("label", LABEL);
                 ("goreg", GOREG);
                 ("call", CALL);
+                ("callc", CALLC)
                 ("return", RETURN);
 
                 ("ra", REG( "0000" )); 

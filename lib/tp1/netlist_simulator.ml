@@ -1,5 +1,4 @@
 open Netlist_ast
-open Graphics
 
 let print_only = ref false
 let number_steps = ref (-1)
