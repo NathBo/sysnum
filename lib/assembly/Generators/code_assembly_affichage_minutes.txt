@@ -1,0 +1,182 @@
+label AFFICHAGE_MINUTES
+movr rj rb
+movr rk 0
+call display_0
+call display_0
+movr rk 1
+call display_0
+call display_1
+movr rk 2
+call display_0
+call display_2
+movr rk 3
+call display_0
+call display_3
+movr rk 4
+call display_0
+call display_4
+movr rk 5
+call display_0
+call display_5
+movr rk 6
+call display_0
+call display_6
+movr rk 7
+call display_0
+call display_7
+movr rk 8
+call display_0
+call display_8
+movr rk 9
+call display_0
+call display_9
+movr rk 10
+call display_1
+call display_0
+movr rk 11
+call display_1
+call display_1
+movr rk 12
+call display_1
+call display_2
+movr rk 13
+call display_1
+call display_3
+movr rk 14
+call display_1
+call display_4
+movr rk 15
+call display_1
+call display_5
+movr rk 16
+call display_1
+call display_6
+movr rk 17
+call display_1
+call display_7
+movr rk 18
+call display_1
+call display_8
+movr rk 19
+call display_1
+call display_9
+movr rk 20
+call display_2
+call display_0
+movr rk 21
+call display_2
+call display_1
+movr rk 22
+call display_2
+call display_2
+movr rk 23
+call display_2
+call display_3
+movr rk 24
+call display_2
+call display_4
+movr rk 25
+call display_2
+call display_5
+movr rk 26
+call display_2
+call display_6
+movr rk 27
+call display_2
+call display_7
+movr rk 28
+call display_2
+call display_8
+movr rk 29
+call display_2
+call display_9
+movr rk 30
+call display_3
+call display_0
+movr rk 31
+call display_3
+call display_1
+movr rk 32
+call display_3
+call display_2
+movr rk 33
+call display_3
+call display_3
+movr rk 34
+call display_3
+call display_4
+movr rk 35
+call display_3
+call display_5
+movr rk 36
+call display_3
+call display_6
+movr rk 37
+call display_3
+call display_7
+movr rk 38
+call display_3
+call display_8
+movr rk 39
+call display_3
+call display_9
+movr rk 40
+call display_4
+call display_0
+movr rk 41
+call display_4
+call display_1
+movr rk 42
+call display_4
+call display_2
+movr rk 43
+call display_4
+call display_3
+movr rk 44
+call display_4
+call display_4
+movr rk 45
+call display_4
+call display_5
+movr rk 46
+call display_4
+call display_6
+movr rk 47
+call display_4
+call display_7
+movr rk 48
+call display_4
+call display_8
+movr rk 49
+call display_4
+call display_9
+movr rk 50
+call display_5
+call display_0
+movr rk 51
+call display_5
+call display_1
+movr rk 52
+call display_5
+call display_2
+movr rk 53
+call display_5
+call display_3
+movr rk 54
+call display_5
+call display_4
+movr rk 55
+call display_5
+call display_5
+movr rk 56
+call display_5
+call display_6
+movr rk 57
+call display_5
+call display_7
+movr rk 58
+call display_5
+call display_8
+movr rk 59
+call display_5
+call display_9
