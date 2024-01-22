@@ -2,7 +2,7 @@
     open Ast
 %}
 
-%token STOP ADD ADDC SUB SUBC MOVR MOVC JUMP GETRAM SETRAM LABEL COMPC GOREG CALL RETURN
+%token ADD ADDC SUB SUBC MOVR MOVC JUMP GETRAM SETRAM LABEL COMPC GOREG CALL RETURN
 %token <string> REG LABELNAME
 %token <string> CONST
 %token NEWLINE
@@ -18,8 +18,6 @@ file:
         { File (list_instructions) }
 
 instruction:
-    | STOP
-        { Stop }
         
     | ADD r1 = reg r2 = reg
         { Add (r1, r2) }

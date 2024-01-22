@@ -3,6 +3,6 @@
 (menhir
  (modules parser))
 (executable
- (name assembly)
+ (public_name assembly)
  (promote (until-clean))
  (flags ()))

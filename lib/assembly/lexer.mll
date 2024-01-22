@@ -13,7 +13,6 @@
         )
         (
             [
-                ("stop", STOP);
                 ("add", ADD);
                 ("addc", ADDC);
                 ("sub", SUB);

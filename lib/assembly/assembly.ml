@@ -40,7 +40,6 @@ let convert_assembly =
   List.iter
     (
       fun call -> match call with
-        | Stop -> Printf.fprintf channel "00000000000000000000000000000000\n";incr cpt
         | Add (Reg (r1), Reg(r2)) -> Printf.fprintf  channel "01101000%s%s0000000000000000\n" r1 r2;incr cpt
         | Addc(Reg(r1),Const(c)) -> Printf.fprintf channel "00101000%s0000%s\n" r1 c;incr cpt
         | Sub (Reg (r1), Reg (r2)) -> Printf.fprintf channel "11101000%s%s0000000000000000\n" r1 r2;incr cpt

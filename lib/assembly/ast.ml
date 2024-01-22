@@ -5,7 +5,6 @@ type const = Const of string
 type labelname = Labelname of string
 
 type instruction = 
-	| Stop
 	| Add of reg * reg
 	| Addc of reg * const
 	| Sub of reg * reg
