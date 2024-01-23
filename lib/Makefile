@@ -12,7 +12,7 @@ drunk:
 
 fibonacci:
 	make -C assembly/ fibonacci
-	make -C tp1/
+	make -C tp1/ fibonacci
 
 clean :
 	dune clean 

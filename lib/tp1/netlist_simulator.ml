@@ -234,14 +234,21 @@ let simulator program number_steps =
     if !i mod 50 = 0 then
     let leading_zero s = match String.length s with
       |1 -> "0" ^ s | _ -> s  in
-    (let _ = Sys.command "clear" in
-    print_string "\nStep ";
-    print_int !i;
-    print_string ":\n";
-    print_endline (leading_zero (string_of_int (bitarray_to_int ram.(9))) ^ ":" ^ 
-    leading_zero (string_of_int (bitarray_to_int ram.(8))) ^ ":" ^ 
-    leading_zero (string_of_int (bitarray_to_int ram.(7))));
-    print_endline (string_of_int (bitarray_to_int ram.(10)) ^ " " ^ 
+      if !mode = 4 then begin 
+        let _ = Sys.command "clear" in
+        print_string "\nStep ";
+        print_int !i;
+        print_string ":\n";
+        print_endline ("Fibonacci "^(string_of_int (bitarray_to_int ram.(9))) ^ " : " ^ string_of_int ( (bitarray_to_int ram.(8))*65536 + (bitarray_to_int ram.(7)))) ;
+      end
+      else (let _ = Sys.command "clear" in
+      print_string "\nStep ";
+      print_int !i;
+      print_string ":\n";
+      print_endline (leading_zero (string_of_int (bitarray_to_int ram.(9))) ^ ":" ^ 
+      leading_zero (string_of_int (bitarray_to_int ram.(8))) ^ ":" ^ 
+      leading_zero (string_of_int (bitarray_to_int ram.(7))));
+      print_endline (string_of_int (bitarray_to_int ram.(10)) ^ " " ^ 
       [|"janvier"; "février"; "mars"; "avril"; "mai"; "juin"; "juillet";
       "âout"; "septembre"; "octobre"; "novembre"; "décembre"|].(bitarray_to_int ram.(11)) ^ " " ^
       string_of_int (bitarray_to_int ram.(12)));

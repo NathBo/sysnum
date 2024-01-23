@@ -13,6 +13,11 @@ drunk:
 	ocamlbuild netlist_simulator.byte
 	./netlist_simulator.byte -m 2 ../netlists/alu.net
 
+fibonacci:
+	dune build
+	ocamlbuild netlist_simulator.byte
+	./netlist_simulator.byte -m 4 ../netlists/alu.net
+
 netlist_ast:
 	ocamlopt -c netlist_ast.ml
 

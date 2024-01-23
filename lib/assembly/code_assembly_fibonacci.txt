@@ -26,10 +26,16 @@ setram rd rj 10
 setram re rj 11
 setram rf rj 12
 
+movc rd 0
+movc re 0
+movc rf 0
+movc rg 0
+
 
 label DEBUT (* Le programme commence ici *)
 movc rj 0
 setram ra rj 9
+setram re rj 8
 setram rb rj 7
 
 label TEST_AJOUT_SECONDE (* Test pour savoir s'il faut ajouter une seconde ou non *)
@@ -40,10 +46,25 @@ movc rj 0
 getram rk rj 0
 jump rj rk TEST_AJOUT_SECONDE
 setram rj rj 0
+
 (* Début du programme, gestion des secondes *)
 label AJOUT_SECONDE
 addc ra 1
+
 movr rd rc
 add rc rb
 movr rb rd
+
+movr rg rf
+add rf re
+movr re rg
+
+compc rc rb DEPASSEMENT
+
 jump ra ra DEBUT (* Pour que ça boucle *)
+
+label DEPASSEMENT
+
+addc re 1
+addc rf 1
+jump ra ra DEBUT
