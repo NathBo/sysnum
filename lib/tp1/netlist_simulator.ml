@@ -232,23 +232,20 @@ let simulator program number_steps =
     if time() > !t +. 1. then
       (ram.(0) <- to_16b(1); t := !t +. 1.);
     if !i mod 50 = 0 then
+    let leading_zero s = match String.length s with
+      |1 -> "0" ^ s | 2 -> s | _ -> failwith "pas possible" in
     (let _ = Sys.command "clear" in
     print_string "\nStep ";
     print_int !i;
     print_string ":\n";
-    print_string "secondes : ";
-    print_int (bitarray_to_int ram.(7));
-    print_string "\nminutes : ";
-    print_int (bitarray_to_int ram.(8));
-    print_string "\nheures : ";
-    print_int (bitarray_to_int ram.(9));
-    print_string "\njour : ";
-    print_int (bitarray_to_int ram.(10));
-    print_string "\nmois : ";
-    print_int (bitarray_to_int ram.(11));
-    print_string "\nannee : ";
-    print_int (bitarray_to_int ram.(12));
-    print_endline "";)
+    print_endline (leading_zero (string_of_int (bitarray_to_int ram.(9))) ^ ":" ^ 
+    leading_zero (string_of_int (bitarray_to_int ram.(8))) ^ ":" ^ 
+    leading_zero (string_of_int (bitarray_to_int ram.(7))));
+    print_endline (string_of_int (bitarray_to_int ram.(10)) ^ " " ^ 
+      [|"janvier"; "février"; "mars"; "avril"; "mai"; "juin"; "juillet";
+      "âout"; "septembre"; "octobre"; "novembre"; "décembre"|].(bitarray_to_int ram.(11)) ^ " " ^
+      string_of_int (bitarray_to_int ram.(12)));
+    print_newline ())
   done
 
 
