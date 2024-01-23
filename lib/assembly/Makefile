@@ -1,5 +1,8 @@
 all: assembly
 
+fibonacci:
+	dune exec ./assembly.exe "code_assembly_fibonacci.txt"
+
 assembly.exe:
 	dune build assembly.exe
 

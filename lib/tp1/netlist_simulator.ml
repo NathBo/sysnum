@@ -233,7 +233,7 @@ let simulator program number_steps =
       (ram.(0) <- to_16b(1); t := !t +. 1.);
     if !i mod 50 = 0 then
     let leading_zero s = match String.length s with
-      |1 -> "0" ^ s | 2 -> s | _ -> failwith "pas possible" in
+      |1 -> "0" ^ s | _ -> s  in
     (let _ = Sys.command "clear" in
     print_string "\nStep ";
     print_int !i;
