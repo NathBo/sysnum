@@ -2,7 +2,7 @@
     open Ast
 %}
 
-%token ADD ADDC SUB SUBC MOVR MOVC JUMP GETRAM SETRAM LABEL COMPC GOREG CALL CALLC RETURN
+%token ADD ADDC SUB SUBC MOVR MOVC JUMP GETRAM SETRAM LABEL COMPC GOREG CALL CALLC RETURN MOD4
 %token <string> REG LABELNAME
 %token <string> CONST
 %token NEWLINE
@@ -63,6 +63,9 @@ instruction:
 
     | GOREG r1 = reg
         { Goreg(r1) }
+
+    | MOD4 r1 = reg r2 = reg
+        { Mod4(r1,r2) }
     
 
 reg:

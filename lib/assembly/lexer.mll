@@ -28,6 +28,7 @@
                 ("call", CALL);
                 ("callc", CALLC);
                 ("return", RETURN);
+                ("modquatre", MOD4);
 
                 ("ra", REG( "0000" )); 
                 ("rb", REG( "0001" ));

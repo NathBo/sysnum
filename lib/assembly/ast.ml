@@ -20,6 +20,7 @@ type instruction =
 	| Call of labelname
 	| Callc of reg *reg * labelname
 	| Return
+	| Mod4 of reg * reg
 
 type file = File of instruction list
 

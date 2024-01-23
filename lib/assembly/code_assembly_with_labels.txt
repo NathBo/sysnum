@@ -23,23 +23,18 @@ getram rd rj 4
 getram re rj 5
 getram rf rj 6
 
-label INIT_MOD_4 (* Initialisation du compteur modulo 4 *)
+(* Initialisation du compteur modulo 4 *)
 movr rg rf
 
-label BOUCLE_MOD_4 (* Boucle pour faire descendre le compteur modulo 4 *)
-movc rj 0
-movc rl 4
-compc rg rl INIT_MOD_100
-movc rj 4
-sub rg rj
-jump ra ra BOUCLE_MOD_4
+modquatre rg rf
+
 
 label INIT_MOD_100 (* Initialisation du compteur modulo 100 *)
 movr rh rf
 
 label BOUCLE_MOD_100 (* Boucle pour faire descendre le compteur modulo 100 *)
 movc rl 100
-compc rg rl INIT_MOD_400
+compc rh rl INIT_MOD_400
 movc rj 100
 sub rh rj
 jump ra ra BOUCLE_MOD_100
@@ -49,7 +44,7 @@ movr ri rf
 
 label BOUCLE_MOD_400 (* Boucle pour faire descendre le compteur modulo 400 *)
 movc rl 400
-compc rg rl DEBUT
+compc ri rl DEBUT
 movc rj 400
 sub ri rj
 jump ra ra BOUCLE_MOD_400

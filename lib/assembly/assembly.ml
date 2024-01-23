@@ -71,5 +71,7 @@ let convert_assembly =
         | Goreg(Reg(r1)) ->
           Printf.fprintf channel "00000101%s00000000000000000000\n" r1;incr cpt
         | Label(_) -> ()
+        | Mod4(Reg(r1),Reg(r2)) ->
+          Printf.fprintf channel "11000001%s%s0000000000000000\n" r1 r2;incr cpt
     )
     calls;
