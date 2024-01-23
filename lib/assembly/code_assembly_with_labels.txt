@@ -15,7 +15,6 @@
 *)
 
 label CHARGEMENT_VALEURS (* Chargement de toutes les valeurs nécessaires pour commencer *)
-setram rl rj 7
 getram ra rj 1
 getram rb rj 2
 getram rc rj 3
