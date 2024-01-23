@@ -8,6 +8,11 @@ fast:
 	ocamlbuild netlist_simulator.byte
 	./netlist_simulator.byte -m 1 ../netlists/alu.net
 
+drunk:
+	dune build
+	ocamlbuild netlist_simulator.byte
+	./netlist_simulator.byte -m 2 ../netlists/alu.net
+
 netlist_ast:
 	ocamlopt -c netlist_ast.ml
 

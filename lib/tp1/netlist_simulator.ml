@@ -213,7 +213,7 @@ let simulator program number_steps =
   ram.(4) <- to_16b mday;
   ram.(5) <- to_16b (mon+1);
   ram.(6) <- to_16b year;
-  ram.(13) <- to_16b !mode;
+  ram.(13) <- to_16b (!mode mod 2);
   print_int mon;
   Hashtbl.add memory "pre_result_ram" ram;
   let i = ref 1 in
@@ -245,7 +245,9 @@ let simulator program number_steps =
       [|"janvier"; "février"; "mars"; "avril"; "mai"; "juin"; "juillet";
       "âout"; "septembre"; "octobre"; "novembre"; "décembre"|].(bitarray_to_int ram.(11)) ^ " " ^
       string_of_int (bitarray_to_int ram.(12)));
-    print_newline ())
+    print_newline ());
+    if !i mod 2000 = 0 && !mode = 2
+      then (ram.(13) <- to_16b (Random.int 2) ;)
   done
 
 
