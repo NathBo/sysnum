@@ -219,21 +219,23 @@ let simulator program number_steps =
   let i = ref 1 in
   let t = ref (time()) in
   while !i<>number_steps+1 do
-    print_string "\nStep ";
-    print_int !i;
-    print_string ":\n";
 
     rams := [];
     Env.iter refersh_envreg program.p_vars;
     input_dans_env program.p_inputs program.p_vars;
     calc_eqs program.p_eqs;
     List.iter write_ram !rams;
-    print_outputs program.p_outputs;
+    (*print_outputs program.p_outputs;*)
 
     incr i;
     let ram = Hashtbl.find memory "pre_result_ram" in
     if time() > !t +. 1. then
       (ram.(0) <- to_16b(1); t := !t +. 1.);
+    if !i mod 50 = 0 then
+    (let _ = Sys.command "clear" in
+    print_string "\nStep ";
+    print_int !i;
+    print_string ":\n";
     print_string "secondes : ";
     print_int (bitarray_to_int ram.(7));
     print_string "\nminutes : ";
@@ -246,7 +248,7 @@ let simulator program number_steps =
     print_int (bitarray_to_int ram.(11));
     print_string "\nannee : ";
     print_int (bitarray_to_int ram.(12));
-    print_endline "";
+    print_endline "";)
   done
 
 
