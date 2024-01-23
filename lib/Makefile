@@ -3,7 +3,7 @@ all :
 	make -C tp1/
 
 fast:
-	make -C assembly/ 
+	make -C assembly/ fast
 	make -C tp1/ fast
 
 drunk:
