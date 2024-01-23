@@ -1,0 +1,733 @@
+
+(* 
+ On considère que ra stocke les secondes, rb les minutes, rc les heures, rd les jours et re les mois, rf les années
+ rg le compteur modulo 4, rh le compteur modulo 100, ri le compteur modulo 400.
+ Les registres rj à ro sont utilisés pour stocker les constantes intérmédiaires nécessaire pour les calculs. En pratique, on utilise pour l'instant uniquement 
+ les registres rj, rk et rl. rl va être utilisé pour charger les constantes nécessaires pour comparer des trucs
+ Il faut savoir dans registres de la RAM sont stockés les valeurs initiales. Est-ce que c'est une bonne idée d'attribuer a un certain registre le rôle de
+ stack pointer? Pour l'instant, on va dire que rp a le rôle de stack pointer
+ Le registre ri va être destiné à stocker toqutes les constantes dont on aura besoin pour le comparaison avec le jump
+ L'adresse 0 de la RAM va servir pour savoir si une seconde est passée ou pas
+ Pour les valeurs initiales, l'adresse 1 va stocker les secondes, l'adresse 2 les minutes, l'adresse 3 les heures, l'adresse 4 les jours, l'adresse 5 les mois, l'adresse
+ 6 les années
+ Le nombre d'années va être stocké sous la forme (chiffre des unités, chiffre des dizaines, chiffre des centaines, chiffre des milliers) dans les adresses ram 13, 14, 15, 16.
+ On a fait ce choix afin de faciliter l'affichage, qui ne nécessiter que 40 tests contre 10000 si on appliquer la même méthode que pour les secondes, minutes, heures et jours
+*)
+
+call DISPLAY_0
+label RETURN0
+call DISPLAY_1
+label RETURN1
+call DISPLAY_2
+label RETURN2
+call DISPLAY_3
+label RETURN3
+call DISPLAY_4
+label RETURN4
+call DISPLAY_5
+label RETURN5
+call DISPLAY_6
+label RETURN6
+call DISPLAY_7
+label RETURN7
+call DISPLAY_8
+label RETURN8
+call DISPLAY_9
+
+
+
+
+
+label DISPLAY_0
+movc rn 102
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+subc rp 3
+setram rp rj 12
+jump ra ra RETURN0
+
+label DISPLAY_1
+movc rn 103
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+jump ra ra RETURN1
+
+label DISPLAY_2
+movc rn 104
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+jump ra ra RETURN2
+
+label DISPLAY_3
+movc rn 105
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+jump ra ra RETURN3
+
+label DISPLAY_4
+movc rn 106
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+jump ra ra RETURN4
+
+label DISPLAY_5
+movc rn 402
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+jump ra ra RETURN5
+
+label DISPLAY_6
+movc rn 403
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+jump ra ra RETURN6
+
+label DISPLAY_7
+movc rn 404
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000000000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000000000 
+setram ro rn 0
+jump ra ra RETURN7
+
+label DISPLAY_8
+movc rn 405
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+jump ra ra RETURN8
+
+label DISPLAY_9
+movc rn 406
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0011000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000000000001100 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movc ro $0000111111110000 
+setram ro rn 0
+addc rn 10 
+movr rm rn
+return

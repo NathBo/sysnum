@@ -1,0 +1,10 @@
+(ocamllex
+ (modules netlist_lexer))
+(menhir
+ (modules netlist_parser))
+(executable
+ (name simulator2)
+ (libraries graphics unix)
+ (promote (until-clean))
+ (flags ()))
+
