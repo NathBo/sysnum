@@ -5,6 +5,7 @@ open Unix
 
 let print_only = ref false
 let number_steps = ref (-1)
+let mode = ref (0)
 
 let env = Hashtbl.create 256
 
@@ -196,7 +197,7 @@ let write_ram eq = match eq with
         then ((if not (Hashtbl.mem memory id)
           then Hashtbl.add memory id (Array.make (puissance 2 adrrs) (VBitArray(Array.make wrds false))));
           (Hashtbl.find memory id).(bitarray_to_int (compute_arg write_addr)) <- compute_arg data;)
-    | _ -> failwith "devrait etre un Eram"
+    | _ -> failwith "devrait eion ensures that Dune ustre un Eram"
     
 
 
@@ -212,6 +213,7 @@ let simulator program number_steps =
   ram.(4) <- to_16b mday;
   ram.(5) <- to_16b (mon+1);
   ram.(6) <- to_16b year;
+  ram.(13) <- to_16b !mode;
   print_int mon;
   Hashtbl.add memory "pre_result_ram" ram;
   let i = ref 1 in
@@ -263,7 +265,8 @@ let compile filename =
 
 let main () =
   Arg.parse
-    ["-n", Arg.Set_int number_steps, "Number of steps to simulate"]
+    ["-n", Arg.Set_int number_steps, "Number of steps to simulate";
+    "-m", Arg.Set_int mode, "0 for slow, 1 for Fast"]
     compile
     ""
 ;;

@@ -59,11 +59,15 @@ setram re rj 11
 setram rf rj 12
 
 label TEST_AJOUT_SECONDE (* Test pour savoir s'il faut ajouter une seconde ou non *)
+movc rj 1
+getram rk rj 12
+jump rj rk AJOUT_SECONDE
 movc rj 0
 getram rk rj 0
 jump rj rk TEST_AJOUT_SECONDE
 setram rj rj 0
 (* Début du programme, gestion des secondes *)
+label AJOUT_SECONDE
 addc ra 1
 movc rj 60
 jump ra rj MINUTES 
