@@ -6,6 +6,10 @@ exception Wrong_constant_size
 
 exception LabelNotDefined of string
 
+
+let file = ref "code_assembly_with_labels.txt"
+
+
 let hashtblfind h s =
   if Hashtbl.mem h s
   then Hashtbl.find h s
@@ -14,13 +18,14 @@ let hashtblfind h s =
 let size_reg = 4
 let size_const = 16
 
-let input = "code_assembly_with_labels.txt"
+let input = !file
 let output = "code_cpu.txt"
 
 
 
 
-let convert_assembly = 
+let convert_assembly filename = (
+  let input = filename in
   let channel = open_in input in
   let lb = Lexing.from_channel channel in
   let File(calls) = Parser.file Lexer.next_token lb in
@@ -75,3 +80,10 @@ let convert_assembly =
           Printf.fprintf channel "11000001%s%s0000000000000000\n" r1 r2;incr cpt
     )
     calls;
+)
+
+let charger () =
+  Arg.parse
+      [] convert_assembly "";;
+     
+charger();
